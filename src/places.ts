@@ -19,11 +19,11 @@ const places: Place[] = [
     }
 ];
 
-(mapboxgl as any).accessToken = 'pk.eyJ1IjoibmV3bm90dGFrZW5uYW1lIiwiYSI6ImNrZjhuZzZvZjA2MDUyd3B4MmdkMzhpamEifQ.3p91vKWfOce6fRzddTg_qA';
+(mapboxgl as any).accessToken = 'pk.eyJ1IjoibmV3bm90dGFrZW5uYW1lIiwiYSI6ImNsOHhpOTQ0YzAycjAzcHAydGR2bmN5MTYifQ.aNK_O6pCnTXSkxNJ2DcdPQ';
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/newnottakenname/ckf8o4w885kx21and6jq56h8q',
+    style: 'mapbox://styles/newnottakenname/cl8xigw5t002s14pbpejhf6ug',
     zoom: 6,
     center: [5.55, 52.316667]
 });
