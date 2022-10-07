@@ -28,6 +28,14 @@ var map = new mapboxgl.Map({
     center: [5.55, 52.316667]
 });
 
+const location = new GeolocateControl({
+    showUserHeading: true,
+    showAccuracyCircle: true,
+    showUserLocation: true,
+    trackUserLocation: true
+});
+
+map.addControl(location);
 const popup = (place: Place) => {
     return new Popup({
         closeOnMove: true
