@@ -9,7 +9,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "mapbox-gl": "^2.7.5"
+    "mapbox-gl": "^2.7.5",
+    "place-components": "file:../place-components"
   },
   "devDependencies": {
     "typescript": "^4.6.4",

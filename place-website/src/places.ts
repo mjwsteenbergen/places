@@ -38,7 +38,7 @@ const popup = (place: Place) => {
     return new Popup({
         offset: [0, -37]
     }).setHTML(`<h1>${place.name}</h1>
-    <p class="placetype">${place.type ? place.type.name : ""}</p>
+    <p class="placetype">${place.type?.name ? place.type.name : ""}</p>
 ${place.link ? `<p><a target="_blank" href="${place.link}">View link</a></p>` : ""}
 <p><a target="_blank" href="https://notion.so/${place.id}">Go to Notion</a></p>
 <p><a target="_blank" href="https://www.google.com/maps/search/${place.latitude},${place.longitude}">Get Directions</a></p>`)
@@ -109,7 +109,17 @@ const createLayer = (places: Place[], type: string) => {
         }
     });
 
-    map.on('click', (event) => {
+    // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
+    map.on('mouseenter', mapId, () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', mapId, () => {
+        map.getCanvas().style.cursor = '';
+    });
+
+    map.on('click', mapId, (event) => {
         const features = map.queryRenderedFeatures(event.point, {
             layers: [mapId]
         });
