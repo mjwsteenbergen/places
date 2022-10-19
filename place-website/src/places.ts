@@ -1,20 +1,8 @@
-import { GeolocateControl, Popup } from 'mapbox-gl';
+import { GeolocateControl, Point, Popup } from 'mapbox-gl';
 import mapboxgl from 'mapbox-gl';
-
-type Place = {
-    latitude: number;
-    longitude: number;
-    name: string;
-    link?: string;
-    id: string;
-    type?: Tag;
-}
-
-type Tag = {
-    id: string;
-    name: string;
-    color: string;
-}
+import text from './text.json';
+import { getPlaces } from './endpoint';
+import type { PlaceOverview } from './endpoint';
 
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoibmV3bm90dGFrZW5uYW1lIiwiYSI6ImNsOHhpOTQ0YzAycjAzcHAydGR2bmN5MTYifQ.aNK_O6pCnTXSkxNJ2DcdPQ';
 
@@ -34,24 +22,33 @@ const location = new GeolocateControl({
 
 map.addControl(location);
 
-const popup = (place: Place) => {
-    return new Popup({
-        offset: [0, -37]
-    }).setHTML(`<h1>${place.name}</h1>
-    <p class="placetype">${place.type?.name ? place.type.name : ""}</p>
-${place.link ? `<p><a target="_blank" href="${place.link}">View link</a></p>` : ""}
-<p><a target="_blank" href="https://notion.so/${place.id}">Go to Notion</a></p>
-<p><a target="_blank" href="https://www.google.com/maps/search/${place.latitude},${place.longitude}">Get Directions</a></p>`)
+const onClick = (place: PlaceOverview) => {
+    if (!place) {
+        return;
+    }
+
+    const text = document.getElementById("text")!;
+    text.innerHTML = "";
+
+    const el = document.createElement("place-details");
+    el.setAttribute("pageId", place.Id);
+    // el.setAttribute("wiki", place.Wikipedia);
+    // el.setAttribute("content", place.PageText);
+    // el.setAttribute("props", JSON.stringify(place.PlaceProps));
+
+    text.appendChild(el);
 }
 
-const createPlaces = (places: Place[]) => {
-    const group: Record<string, Place[]> = {};
+const createPlaces = (places: PlaceOverview[]) => {
+    const group: Record<string, PlaceOverview[]> = {};
 
     places.forEach(place => {
-        if (!group[place.type?.name ?? "unknown"]) {
-            group[place.type?.name ?? "unknown"] = [];
+        const name = place.Type;
+
+        if (!group[name ?? "unknown"]) {
+            group[name ?? "unknown"] = [];
         }
-        group[place.type?.name ?? "unknown"].push(place);
+        group[name ?? "unknown"].push(place);
     })
 
     Object.keys(group).forEach(key => {
@@ -66,7 +63,7 @@ const layerMap = {
     "unknown": "rocket"
 };
 
-const createLayer = (places: Place[], type: string) => {
+const createLayer = (places: PlaceOverview[], type: string) => {
     const mapId = 'places-' + type;
 
 
@@ -78,7 +75,7 @@ const createLayer = (places: Place[], type: string) => {
                     'type': 'Feature',
                     'geometry': {
                             'type': 'Point',
-                            'coordinates': [place.longitude, place.latitude],
+                            'coordinates': [place.Longitude, place.Latitude],
                     },
                     "properties": place
                     }
@@ -104,7 +101,7 @@ const createLayer = (places: Place[], type: string) => {
             'text-anchor': 'top',
             'text-offset': [0, 0.75],
             'text-field': ['format',
-                ['get', 'name'],
+                ['get', 'Name'],
             ],
         }
     });
@@ -128,23 +125,9 @@ const createLayer = (places: Place[], type: string) => {
         }
 
         const feature = features[0];
-        const coords = (feature.geometry as any).coordinates;
 
-        map.flyTo({
-            center: coords,
-            zoom: map.getZoom() < 14 ? 14 : map.getZoom(),
-        })
-
-        popup(feature.properties as Place)
-            .setLngLat(coords)
-            .addTo(map);
+        onClick(feature.properties as PlaceOverview);
     });
-}
-
-
-
-type Reply = {
-    Result: Place[]
 }
 
 let paramString = window.location.href.split('?')[1];
@@ -153,12 +136,8 @@ if (queryString.has("token")) {
     localStorage.setItem("zeuskey", queryString.get("token") || "");
 }
 
-if (localStorage.getItem("zeuskey")) {
-    fetch(`https://zeus-laurentia.azurewebsites.net/api/run/places?token=${localStorage.getItem("zeuskey")}`, {
-    }).then(i => i.json()).then(reply => {
-        const rep = reply as { Reply: Reply };
-        createPlaces(rep.Reply.Result);
-    })
-} else {
-    console.warn("no api key found. not loading in extra items");
-}
+// map.on('load', () => {
+//     createPlaces(text.Reply.Result as any as PlaceOverview[]);
+// })
+
+getPlaces().then(reply => createPlaces(reply.Reply.Result))
