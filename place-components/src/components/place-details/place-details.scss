@@ -37,6 +37,7 @@ section {
 
     position: relative;
     overflow-x: auto;
+    max-height: calc(100vh - 30px);
 }
 
 @media(max-width: 1050px) {
@@ -108,6 +109,7 @@ ul.bullets {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    margin-top: 50px;
 }
 
 .notion-button {
@@ -118,4 +120,49 @@ ul.bullets {
     background-color: var(--color-gray);
     margin: 0 -30px;
     padding: 20px;
+}
+
+summary {
+    display: flex;
+    list-style: none;
+}
+
+details {
+    margin-bottom: 10px;
+}
+
+details:not([open]) .close {
+    display: none;
+}
+
+details[open] .open {
+    display: none;
+}
+
+ion-icon {
+    align-self: center;
+}
+
+// Wikipedia
+
+.mw-parser-output {
+    .mw-editsection {
+        display: none;
+    }
+    
+    .infobox {
+        display: none;
+    }
+    
+    .toc {
+        display: none;
+    }
+
+    .navbox {
+        display: none;
+    }
+
+    .metadata {
+        display: none;
+    }
 }

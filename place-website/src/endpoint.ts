@@ -17,7 +17,14 @@ export type PlaceOverview = {
 export type PlaceDetails = {
     PlaceProps: Place,
     PageText: string;
-    Wikipedia: string;
+    Wikipedia: WikipediaData;
+    imageUrl: string;
+}
+
+export type WikipediaData = {
+    text: string;
+    summary: string;
+    url: string;
 }
 
 export type Place = {
@@ -72,6 +79,28 @@ export const getPlaces = async (): Promise<Response<PlaceOverview[]>> => {
     })
 
     
+}
+
+export const getLocalPlaces = async (latitude: number, longitude: number): Promise<Response<PlaceDetails[] | undefined>> => {
+    return await fetch(`${endpoint}/api/run/places`, {
+        method: "POST",
+        body: JSON.stringify({
+            ...getAuth(),
+            latitude,
+            longitude,
+            action: "location"
+        })
+    }).then(i => i.json())
+        .catch(i => {
+            console.error(i)
+            const s: Response<PlaceDetails[] | undefined> = {
+                Reply: {
+                    Result: undefined
+                }
+            };
+
+            return Promise.resolve(s);
+        })
 }
 
 export const getPlace = async (id: string): Promise<Response<PlaceDetails | undefined>> => {

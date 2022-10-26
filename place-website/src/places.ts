@@ -2,6 +2,7 @@ import { GeolocateControl } from 'mapbox-gl';
 import mapboxgl from 'mapbox-gl';
 import { getPlaces, getAuth } from './endpoint';
 import type { PlaceOverview } from './endpoint';
+import { LocalControl } from './local-control';
 
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoibmV3bm90dGFrZW5uYW1lIiwiYSI6ImNsOHhpOTQ0YzAycjAzcHAydGR2bmN5MTYifQ.aNK_O6pCnTXSkxNJ2DcdPQ';
 
@@ -20,6 +21,10 @@ const location = new GeolocateControl({
 });
 
 map.addControl(location);
+
+if (getAuth().token) {
+    map.addControl(new LocalControl());
+}
 
 const onClick = (place: PlaceOverview) => {
     if (!place) {

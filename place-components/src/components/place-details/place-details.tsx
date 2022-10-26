@@ -1,6 +1,6 @@
-import { Component, h, Prop, Element, State } from '@stencil/core';
-import { getPlace } from '../../../../place-website/src/endpoint';
-import type { PlaceDetails as PlaceDetailsType } from '../../../../place-website/src/endpoint';
+import { Component, h, Prop, Element, State, Event, EventEmitter } from '@stencil/core';
+import { getPlace, WikipediaData } from '../../../../place-website/src/endpoint';
+import type { PlaceDetails } from '../../../../place-website/src/endpoint';
 
 
 @Component({
@@ -8,20 +8,31 @@ import type { PlaceDetails as PlaceDetailsType } from '../../../../place-website
   styleUrl: "place-details.scss",
   shadow: true,
 })
-export class PlaceDetails {
+export class PlaceDetailsComp {
   @Prop({
     attribute:"pageid"
   }) pageId: string;
 
-  @State() state: PlaceDetailsType;
+  @Prop() place: PlaceDetails;
+
+  @State() state: PlaceDetails;
 
   @Element() el: HTMLElement;
 
+  @Event() detailClose: EventEmitter;
+
+
   connectedCallback() {
-    getPlace(this.pageId).then(i => {
-      this.state = i.Reply.Result;
-    })
+    if (this.pageId) {
+      getPlace(this.pageId).then(i => {
+        this.state = i.Reply.Result;
+      })
+    } else if (this.place) {
+      this.state = this.place;
+    }
   }
+
+
 
   render() {
     if (!this.state) {
@@ -33,7 +44,7 @@ export class PlaceDetails {
     return (
       <section>
         <ul class="bullets">
-          <li class="placetype">{PlaceProps.type?.name ? PlaceProps.type.name : ""}</li>
+          {PlaceProps.type?.name && <li class="placetype">{PlaceProps.type.name}</li>}
           {PlaceProps.link ? <li><a target="_blank" href={PlaceProps.link}>View link ↗</a></li> : ""}
           <li><a target="_blank" href={"https://www.google.com/maps/search/" + PlaceProps.latitude + "," + PlaceProps.longitude}>Directions ↗</a></li>          
         </ul>
@@ -41,13 +52,14 @@ export class PlaceDetails {
         <h1>{PlaceProps.name}</h1>
         {this.getContent(PageText)}
         {this.getWiki(Wikipedia)}
-        <div class="notion-button-container"><a class="notion-button" target="_blank" href={"https://notion.so/" + PlaceProps.id}>Go to Notion</a></div>
+        {PlaceProps.id && <div class="notion-button-container"><a class="notion-button" target="_blank" href={"https://notion.so/" + PlaceProps.id}>Go to Notion</a></div>}
       </section>
     );
   }
 
   close() {
-    this.el.parentElement.removeChild(this.el);
+    this.detailClose.emit();
+    this.el.parentElement?.removeChild(this.el);
   }
 
   getContent(content: string) {
@@ -59,11 +71,19 @@ export class PlaceDetails {
     }
   }
 
-  getWiki(input: string) {
-    if (input) {
+  getWiki(data: WikipediaData) {
+    if (data) {
       return <div>
         <h2>Wikipedia</h2>
-        <div innerHTML={input}></div>
+        <div innerHTML={data.summary}></div>
+        <details>
+          <summary>
+            <ion-icon class="close" name="chevron-down-outline"></ion-icon>
+            <ion-icon class="open" name="chevron-forward-outline"></ion-icon>
+            Read the full article</summary>
+          <div innerHTML={data.text}></div>
+        </details>
+        <a target="_blank" href={data.url}>Read on Wikipedia</a>
       </div>
     }
     return undefined;
