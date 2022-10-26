@@ -38,45 +38,61 @@ export type Tag = {
 // const endpoint = "https://zeus-laurentia.azurewebsites.net";
 const endpoint = "http://localhost:7071";
 
-const getKey = (): [boolean, string] => {
-    const key = localStorage.getItem("zeuskey");
-    if (key) {
-        return [true, key];
-    } else {
-        console.warn("no api key found. not doing calls");
-        return [false, ""];
+
+
+const getKey = () => localStorage.getItem("zeuskey");
+
+export const getAuth = () => {
+    let paramString = window.location.href.split('?')[1];
+    let queryString = new URLSearchParams(paramString);
+    if (queryString.has("token")) {
+        localStorage.setItem("zeuskey", queryString.get("token") || "");
+        queryString.delete("token")
+    }
+
+    return {
+        token: getKey(),
+        collectionId: queryString.get("collectionId") || undefined
     }
 }
 
 export const getPlaces = async (): Promise<Response<PlaceOverview[]>> => {
-    const [hasKey, key] = getKey();
+    return await fetch(`${endpoint}/api/run/places`, {
+        method: "POST",
+        body: JSON.stringify({
+            ...getAuth()
+        })
+    }).then(i => i.json()).catch(i => {
+        console.log(i);
+        const s: Response<PlaceOverview[]> = {
+            Reply: { Result: [] }
+        };
 
-    if (hasKey) {
-        return await fetch(`${endpoint}/api/run/places?token=${key}`).then(i => i.json())
-    }
+        return Promise.resolve(s);
+    })
 
-    const s: Response<PlaceOverview[]> = {
-        Reply: { Result: [] }
-    };
-
-    return Promise.resolve(s);
+    
 }
 
 export const getPlace = async (id: string): Promise<Response<PlaceDetails | undefined>> => {
-    const [hasKey, key] = getKey();
+    return await fetch(`${endpoint}/api/run/places`, {
+        method: "POST",
+        body: JSON.stringify({
+            ...getAuth(),
+            id,
+            action: "place"
+        })
+    }).then(i => i.json())
+        .catch(i => {
+            console.error(i)
+            const s: Response<PlaceDetails | undefined> = {
+                Reply: {
+                    Result: undefined
+                }
+            };
 
-    if (hasKey) {
-        return await fetch(`${endpoint}/api/run/places?token=${key}`, {
-            method: "POST",
-            body: JSON.stringify({ Id: id })
-        }).then(i => i.json())
-    }
-
-    const s: Response<PlaceDetails | undefined> = {
-        Reply: {
-            Result: undefined
-        }
-    };
-
-    return Promise.resolve(s);
+            return Promise.resolve(s);
+        })
 }
+
+    

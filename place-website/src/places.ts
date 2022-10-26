@@ -1,7 +1,6 @@
-import { GeolocateControl, Point, Popup } from 'mapbox-gl';
+import { GeolocateControl } from 'mapbox-gl';
 import mapboxgl from 'mapbox-gl';
-import text from './text.json';
-import { getPlaces } from './endpoint';
+import { getPlaces, getAuth } from './endpoint';
 import type { PlaceOverview } from './endpoint';
 
 (mapboxgl as any).accessToken = 'pk.eyJ1IjoibmV3bm90dGFrZW5uYW1lIiwiYSI6ImNsOHhpOTQ0YzAycjAzcHAydGR2bmN5MTYifQ.aNK_O6pCnTXSkxNJ2DcdPQ';
@@ -53,7 +52,40 @@ const createPlaces = (places: PlaceOverview[]) => {
 
     Object.keys(group).forEach(key => {
         createLayer(group[key], key);
-    })
+    });
+
+    if (getAuth().collectionId) {
+        const minmax: [[number, number], [number, number]] = places.reduce((minmax, cur) => {
+            const [max, min] = minmax;
+            if (cur.Longitude > max[0]) {
+                minmax[0][0] = cur.Longitude;
+            }
+
+            if(cur.Latitude > max[1]) {
+                minmax[0][1] = cur.Latitude
+            }
+
+            if (cur.Longitude < min[0]) {
+                minmax[1][0] = cur.Longitude;
+            }
+
+            if(cur.Latitude < min[1]) {
+                console.log("min", cur.Name)
+                minmax[1][1] = cur.Latitude;
+            }
+
+            
+            return minmax;
+        }, [[Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER], [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]])
+        map.fitBounds(minmax, {
+            padding: {
+                bottom: 100,
+                left: 100,
+                right: 100,
+                top: 100
+            }
+        })
+    }
 }
 
 const layerMap = {
@@ -130,14 +162,6 @@ const createLayer = (places: PlaceOverview[], type: string) => {
     });
 }
 
-let paramString = window.location.href.split('?')[1];
-let queryString = new URLSearchParams(paramString);
-if (queryString.has("token")) {
-    localStorage.setItem("zeuskey", queryString.get("token") || "");
-}
 
-// map.on('load', () => {
-//     createPlaces(text.Reply.Result as any as PlaceOverview[]);
-// })
 
 getPlaces().then(reply => createPlaces(reply.Reply.Result))
