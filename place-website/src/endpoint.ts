@@ -42,10 +42,8 @@ export type Tag = {
     color: string;
 }
 
-// const endpoint = "https://zeus-laurentia.azurewebsites.net";
-const endpoint = "http://localhost:7071";
-
-
+const endpoint = "https://zeus-laurentia.azurewebsites.net";
+// const endpoint = "http://localhost:7071";
 
 const getKey = () => localStorage.getItem("zeuskey");
 
