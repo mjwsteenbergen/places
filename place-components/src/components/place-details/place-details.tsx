@@ -1,4 +1,4 @@
-import { Component, h, Prop, Element, State, Watch } from '@stencil/core';
+import { Component, h, Prop, Element, State } from '@stencil/core';
 import { getPlace } from '../../../../place-website/src/endpoint';
 import type { PlaceDetails as PlaceDetailsType } from '../../../../place-website/src/endpoint';
 
@@ -12,13 +12,6 @@ export class PlaceDetails {
   @Prop({
     attribute:"pageid"
   }) pageId: string;
-  
-  @Watch('pageid')
-  validateName(newValue: string, _oldValue: string) {
-    // getPlace(newValue).then(i => {
-    //   this.state = i.Reply.Result;
-    // })
-  }
 
   @State() state: PlaceDetailsType;
 
