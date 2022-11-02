@@ -26,14 +26,16 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@stencil/core": "^2.13.0"
+    "@stencil/core": "^2.13.0",
+    "mapbox-gl": "^2.7.5"
   },
   "devDependencies": {
     "@stencil/sass": "^2.0.0",
     "@types/jest": "^27.0.3",
     "jest": "^27.4.5",
     "jest-cli": "^27.4.5",
-    "puppeteer": "^10.0.0"
+    "puppeteer": "^10.0.0",
+    "@types/mapbox-gl": "^2.7.5"
   },
   "license": "MIT"
 }

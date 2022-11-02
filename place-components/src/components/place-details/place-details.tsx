@@ -1,6 +1,6 @@
 import { Component, h, Prop, Element, State, Event, EventEmitter } from '@stencil/core';
-import { getPlace, WikipediaData } from '../../../../place-website/src/endpoint';
-import type { PlaceDetails } from '../../../../place-website/src/endpoint';
+import { getPlace, WikipediaData } from '../../utils/endpoint';
+import type { PlaceDetails } from '../../utils/endpoint';
 
 
 @Component({

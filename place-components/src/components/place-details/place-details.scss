@@ -146,23 +146,7 @@ ion-icon {
 // Wikipedia
 
 .mw-parser-output {
-    .mw-editsection {
-        display: none;
-    }
-    
-    .infobox {
-        display: none;
-    }
-    
-    .toc {
-        display: none;
-    }
-
-    .navbox {
-        display: none;
-    }
-
-    .metadata {
+    .mw-editsection, .sidebar, .infobox, .toc, .navbox, .metadata {
         display: none;
     }
 }

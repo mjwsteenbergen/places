@@ -1,5 +1,6 @@
 import { Component, h, State, Prop, Listen, Fragment, Element } from '@stencil/core';
-import { getLocalPlaces, PlaceDetails } from '../../../../place-website/src/endpoint';
+import { getLocalPlaces, getPlace, PlaceDetails, PlaceOverview } from '../../utils/endpoint';
+import { createLayer, fitAllInBounds } from '../places-map/createPlaces';
 
 @Component({
   tag: 'local-places',
@@ -9,7 +10,7 @@ import { getLocalPlaces, PlaceDetails } from '../../../../place-website/src/endp
 export class LocalPlaces {
 
   @State() selected: PlaceDetails;
-  @State() places: PlaceDetails[];
+  @State() places: PlaceOverview[];
 
   @Prop() latitude: number;
   @Prop() longitude: number;
@@ -23,9 +24,15 @@ export class LocalPlaces {
 
 
   connectedCallback() {
-    console.log("check");
-    getLocalPlaces(this.latitude, this.longitude).then(i => {
+    getLocalPlaces(this.latitude, this.longitude).then(async i => {
       this.places = i.Reply.Result;
+
+      const mapComponent = document.getElementsByTagName("places-map")[0];
+      const map = await mapComponent.getMap();
+
+      createLayer(this.places, map, "WikipediaPlace");  
+      fitAllInBounds(map, this.places);
+
     })
     this.places = [];
   }
@@ -44,11 +51,13 @@ export class LocalPlaces {
         <ul>
           {this.places.map(place => {
             return <li onClick={() => {
-              this.selected = place;
+              getPlace(place.Id).then(response => {
+                this.selected = response.Reply.Result;
+              })
             }
             }>
-              <h1>{place.PlaceProps.name}</h1>
-              <p innerHTML={place.Wikipedia.summary}></p>
+              <h1>{place.Name}</h1>
+              <p innerHTML={place.summary}></p>
               {place.imageUrl && <img src={place.imageUrl}></img>}
             </li>
           })}

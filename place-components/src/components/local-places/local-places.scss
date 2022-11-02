@@ -19,9 +19,14 @@ h1 {
     grid-column: 2;
 }
 
-p {
+ul > p {
     grid-row: 2;
     grid-column: 2;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 ul {
@@ -40,7 +45,7 @@ ul {
         grid-row: 1;
     }
 
-    p {
+    ul > p {
         grid-column: 1/3;
     }
 }

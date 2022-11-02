@@ -12,6 +12,8 @@ export type PlaceOverview = {
     Id: string;
     Latitude: number;
     Longitude: number;
+    summary: string;
+    imageUrl: string;
 }
 
 export type PlaceDetails = {
@@ -42,8 +44,9 @@ export type Tag = {
     color: string;
 }
 
-const endpoint = "https://zeus-laurentia.azurewebsites.net";
-// const endpoint = "http://localhost:7071";
+// const endpoint = "https://zeus-laurentia.azurewebsites.net";
+
+const endpoint = "http://localhost:7071";
 
 const getKey = () => localStorage.getItem("zeuskey");
 
@@ -68,7 +71,7 @@ export const getPlaces = async (): Promise<Response<PlaceOverview[]>> => {
             ...getAuth()
         })
     }).then(i => i.json()).catch(i => {
-        console.log(i);
+        console.error(i);
         const s: Response<PlaceOverview[]> = {
             Reply: { Result: [] }
         };
@@ -79,7 +82,7 @@ export const getPlaces = async (): Promise<Response<PlaceOverview[]>> => {
     
 }
 
-export const getLocalPlaces = async (latitude: number, longitude: number): Promise<Response<PlaceDetails[] | undefined>> => {
+export const getLocalPlaces = async (latitude: number, longitude: number): Promise<Response<PlaceOverview[] | undefined>> => {
     return await fetch(`${endpoint}/api/run/places`, {
         method: "POST",
         body: JSON.stringify({
@@ -91,7 +94,7 @@ export const getLocalPlaces = async (latitude: number, longitude: number): Promi
     }).then(i => i.json())
         .catch(i => {
             console.error(i)
-            const s: Response<PlaceDetails[] | undefined> = {
+            const s: Response<PlaceOverview[] | undefined> = {
                 Reply: {
                     Result: undefined
                 }
