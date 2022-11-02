@@ -25,11 +25,13 @@
 ### Used by
 
  - [local-places](../local-places)
+ - [places-map](../places-map)
 
 ### Graph
 ```mermaid
 graph TD;
   local-places --> place-details
+  places-map --> place-details
   style place-details fill:#f9f,stroke:#333,stroke-width:4px
 ```
 

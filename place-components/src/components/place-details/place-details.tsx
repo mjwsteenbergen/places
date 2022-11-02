@@ -44,7 +44,9 @@ export class PlaceDetailsComp {
     return (
       <section>
         <ul class="bullets">
-          {PlaceProps.type?.name && <li class="placetype">{PlaceProps.type.name}</li>}
+          {PlaceProps.type?.name && <li class="special">{PlaceProps.type.name}</li>}
+          {PlaceProps.visited && <li class="special">Have been</li>}
+          {PlaceProps.tags?.map(tag => <li class="special" data-id={tag.id}>{tag.name}</li>)}
           {PlaceProps.link ? <li><a target="_blank" href={PlaceProps.link}>View link ↗</a></li> : ""}
           <li><a target="_blank" href={"https://www.google.com/maps/search/" + PlaceProps.latitude + "," + PlaceProps.longitude}>Directions ↗</a></li>          
         </ul>

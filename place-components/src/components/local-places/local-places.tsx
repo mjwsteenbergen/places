@@ -33,6 +33,10 @@ export class LocalPlaces {
       createLayer(this.places, map, "WikipediaPlace");  
       fitAllInBounds(map, this.places);
 
+      setTimeout(() => {
+        fitAllInBounds(map, this.places);
+      }, 3000);
+
     })
     this.places = [];
   }

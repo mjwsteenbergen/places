@@ -38,7 +38,6 @@ export const fitAllInBounds = (map: Map, places: PlaceOverview[]) => {
         }
 
         if (cur.Latitude < min[1]) {
-            console.log("min", cur.Name)
             minmax[1][1] = cur.Latitude;
         }
 
@@ -49,7 +48,7 @@ export const fitAllInBounds = (map: Map, places: PlaceOverview[]) => {
         padding: {
             bottom: 100,
             left: 100,
-            right: 100,
+            right: 500,
             top: 100
         }
     })
@@ -127,10 +126,16 @@ export const createLayer = (places: PlaceOverview[], map:Map, type: string) => {
         if (!features.length) {
             return;
         }
-
         const feature = features[0];
+        const props = feature.properties as PlaceOverview;
 
-        onClick(feature.properties as PlaceOverview);
+        map.easeTo({
+            center: [props.Longitude, props.Latitude],
+            zoom: Math.max(map.getZoom(), 12)
+        })
+
+
+        onClick(props);
     });
 }
 
