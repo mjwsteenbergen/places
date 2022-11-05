@@ -77,13 +77,10 @@ export class PlaceDetailsComp {
     if (data) {
       return <div>
         <h2>Wikipedia</h2>
-        <div innerHTML={data.summary}></div>
         <details>
           <summary>
-            <ion-icon class="close" name="chevron-down-outline"></ion-icon>
-            <ion-icon class="open" name="chevron-forward-outline"></ion-icon>
-            Read the full article</summary>
-          <div innerHTML={data.text}></div>
+            <div innerHTML={data.text}></div>
+          </summary>
         </details>
         <a target="_blank" href={data.url}>Read on Wikipedia</a>
       </div>

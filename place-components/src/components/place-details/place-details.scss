@@ -123,12 +123,31 @@ ul.bullets {
 }
 
 summary {
-    display: flex;
     list-style: none;
+    
 }
 
 details {
     margin-bottom: 10px;
+    position: relative;
+
+    max-height: 300px;
+    overflow: hidden;
+    
+    &[open] {
+        max-height: initial;
+    }
+
+    &:not([open]):before {
+        content: '';
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: linear-gradient(transparent 150px, white);
+        pointer-events: none;
+    }
 }
 
 details:not([open]) .close {
@@ -146,7 +165,7 @@ ion-icon {
 // Wikipedia
 
 .mw-parser-output {
-    .mw-editsection, .sidebar, .infobox, .toc, .navbox, .metadata {
+    .mw-editsection, .sidebar, .infobox, .toc, .navbox, .metadata, .tright {
         display: none;
     }
 }

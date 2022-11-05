@@ -1,5 +1,5 @@
 import { Component, h, State, Prop, Listen, Fragment, Element } from '@stencil/core';
-import { getLocalPlaces, getPlace, PlaceDetails, PlaceOverview } from '../../utils/endpoint';
+import { getLocalPlaces, getPlace, PlaceDetails, BasicPlace } from '../../utils/endpoint';
 import { createLayer, fitAllInBounds } from '../places-map/createPlaces';
 
 @Component({
@@ -10,7 +10,7 @@ import { createLayer, fitAllInBounds } from '../places-map/createPlaces';
 export class LocalPlaces {
 
   @State() selected: PlaceDetails;
-  @State() places: PlaceOverview[];
+  @State() places: BasicPlace[];
 
   @Prop() latitude: number;
   @Prop() longitude: number;
