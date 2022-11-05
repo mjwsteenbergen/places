@@ -6,7 +6,7 @@ export type Reply<T> = {
     Result: T
 }
 
-export type PlaceOverview = {
+export type BasicPlace = {
     Name: string;
     Type: string;
     Id: string;
@@ -66,7 +66,7 @@ export const getAuth = () => {
     }
 }
 
-export const getPlaces = async (): Promise<Response<PlaceOverview[]>> => {
+export const getPlaces = async (): Promise<Response<BasicPlace[]>> => {
     return await fetch(`${endpoint}/api/run/places`, {
         method: "POST",
         body: JSON.stringify({
@@ -74,7 +74,7 @@ export const getPlaces = async (): Promise<Response<PlaceOverview[]>> => {
         })
     }).then(i => i.json()).catch(i => {
         console.error(i);
-        const s: Response<PlaceOverview[]> = {
+        const s: Response<BasicPlace[]> = {
             Reply: { Result: [] }
         };
 
@@ -84,7 +84,7 @@ export const getPlaces = async (): Promise<Response<PlaceOverview[]>> => {
     
 }
 
-export const getLocalPlaces = async (latitude: number, longitude: number): Promise<Response<PlaceOverview[] | undefined>> => {
+export const getLocalPlaces = async (latitude: number, longitude: number): Promise<Response<BasicPlace[] | undefined>> => {
     return await fetch(`${endpoint}/api/run/places`, {
         method: "POST",
         body: JSON.stringify({
@@ -96,7 +96,7 @@ export const getLocalPlaces = async (latitude: number, longitude: number): Promi
     }).then(i => i.json())
         .catch(i => {
             console.error(i)
-            const s: Response<PlaceOverview[] | undefined> = {
+            const s: Response<BasicPlace[] | undefined> = {
                 Reply: {
                     Result: undefined
                 }

@@ -1,0 +1,45 @@
+.mapboxgl-popup-content {
+    padding: 20px !important;
+    padding-bottom: 0 !important;
+
+    .mapboxgl-popup-close-button {
+        display: none;
+    }
+
+    a {
+        font-size: larger;
+    }
+
+    h1 {
+        line-height: initial;
+        margin: 0;
+        font-size: x-large;
+    }
+
+    .popup {
+        &_background {
+            background-size: cover;
+            margin: -20px -20px 0 -20px;
+            display: flex;
+            height: 150px;
+            align-items: end;
+
+            h1 {
+                padding:20px;
+                color: white;
+            }
+        }
+    }
+}
+
+.mapboxgl-marker {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-family: "DIN Pro";
+}
+
+.mapboxgl-marker .placeName {
+    max-width: 80px;
+    margin: 0;
+}

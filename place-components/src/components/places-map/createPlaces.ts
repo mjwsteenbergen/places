@@ -1,8 +1,8 @@
-import { getAuth, PlaceOverview } from "../../utils/endpoint";
-import { Map } from 'mapbox-gl';
+import { getAuth, BasicPlace } from "../../utils/endpoint";
+import { Map, Popup } from 'mapbox-gl';
 
-export const createPlaces = (map: Map, places: PlaceOverview[]) => {
-    const group: Record<string, PlaceOverview[]> = {};
+export const createPlaces = (map: Map, places: BasicPlace[]) => {
+    const group: Record<string, BasicPlace[]> = {};
 
     places.forEach(place => {
         const name = place.Type;
@@ -22,7 +22,7 @@ export const createPlaces = (map: Map, places: PlaceOverview[]) => {
     }
 }
 
-export const fitAllInBounds = (map: Map, places: PlaceOverview[]) => {
+export const fitAllInBounds = (map: Map, places: BasicPlace[]) => {
     const minmax: [[number, number], [number, number]] = places.reduce((minmax, cur) => {
         const [max, min] = minmax;
         if (cur.Longitude > max[0]) {
@@ -62,7 +62,24 @@ const layerMap = {
     "unknown": "rocket"
 };
 
-export const createLayer = (places: PlaceOverview[], map:Map, type: string) => {
+let currentPopup: Popup = undefined
+
+export const createLayer = (places: BasicPlace[], map: Map, type: string) => {
+    
+    const getSelectedPlace = (event: mapboxgl.MapMouseEvent & {
+        features?: mapboxgl.MapboxGeoJSONFeature[];
+    }): BasicPlace => {
+        const features = map.queryRenderedFeatures(event.point, {
+            layers: [mapId]
+        });
+        if (!features.length) {
+            return;
+        }
+        const feature = features[0]; 
+        console.log(feature, (feature as any).setPopup);
+        return feature.properties as BasicPlace;
+    }
+
     const mapId = 'places-' + type;
 
 
@@ -110,24 +127,24 @@ export const createLayer = (places: PlaceOverview[], map:Map, type: string) => {
     });
 
     // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
-    map.on('mouseenter', mapId, () => {
+    map.on('mouseenter', mapId, (event) => {
+        const props = getSelectedPlace(event);
+        if (!currentPopup) {
+            currentPopup = popup(props);
+            currentPopup.addTo(map);
+        }
         map.getCanvas().style.cursor = 'pointer';
     });
 
     // Change it back to a pointer when it leaves.
     map.on('mouseleave', mapId, () => {
         map.getCanvas().style.cursor = '';
+        currentPopup?.remove();
+        currentPopup = undefined;
     });
 
     map.on('click', mapId, (event) => {
-        const features = map.queryRenderedFeatures(event.point, {
-            layers: [mapId]
-        });
-        if (!features.length) {
-            return;
-        }
-        const feature = features[0];
-        const props = feature.properties as PlaceOverview;
+        const props = getSelectedPlace(event);        
 
         map.easeTo({
             center: [props.Longitude, props.Latitude],
@@ -139,7 +156,26 @@ export const createLayer = (places: PlaceOverview[], map:Map, type: string) => {
     });
 }
 
-const onClick = (place: PlaceOverview) => {
+const popup = (place: BasicPlace) => {
+    const header = `<h1>${place.Name}</h1>`
+    const hero = !place.imageUrl ? header : `<div class="popup_background" style="background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0.4)
+  ), url(${place.imageUrl})">
+        ${header}
+    </div>`
+
+    return new Popup({
+        closeOnMove: true,
+        offset: [0, -10]
+    })
+        .setLngLat([place.Longitude, place.Latitude])
+        .setHTML(`${hero}
+    <p class="placetype">${place.Type}</p>`)
+}
+
+const onClick = (place: BasicPlace) => {
     if (!place) {
         return;
     }
