@@ -21,8 +21,9 @@
             background-size: cover;
             margin: -20px -20px 0 -20px;
             display: flex;
+            flex-direction: column;
             height: 150px;
-            align-items: end;
+            justify-content: flex-end;
 
             h1 {
                 padding:20px;
@@ -30,7 +31,20 @@
             }
         }
     }
+
+    .desc-container {
+        margin: 5px 0px;
+
+        h3 {
+            margin: 10px 0px 0px 0px;
+            padding: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
 }
+
 
 .mapboxgl-marker {
     display: flex;

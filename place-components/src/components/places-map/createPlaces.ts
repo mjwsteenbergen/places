@@ -175,7 +175,9 @@ const popup = (place: BasicPlace) => {
     })
         .setLngLat([place.Longitude, place.Latitude])
         .setHTML(`${hero}
-    <p class="placetype">${place.Type}</p>`)
+        <div class="desc-container">
+        ${place.short && `<h3>${place.short}</h2>`}
+    <p class="placetype">${place.Type}</p></div>`)
 }
 
 const onClick = (place: BasicPlace) => {

@@ -14,6 +14,7 @@ export type BasicPlace = {
     Longitude: number;
     summary: string;
     imageUrl: string;
+    short: string;
 }
 
 export type PlaceDetails = {
