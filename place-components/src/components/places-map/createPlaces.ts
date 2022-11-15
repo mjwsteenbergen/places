@@ -58,6 +58,7 @@ const layerMap = {
     "Place to visit": "attraction",
     "Place to eat": "restaurant",
     "Vacation Highlight": "embassy",
+    "Vacation Option": "place-low",
     "WikipediaPlace": "attraction",
     "unknown": "rocket"
 };
@@ -108,12 +109,14 @@ export const createLayer = (places: BasicPlace[], map: Map, type: string) => {
         data: geojson
     });
 
+    const iconImage = (layerMap as any)[type ?? "unkown"] ?? "rocket";
+
     map.addLayer({
         'id': mapId,
         'type': 'symbol',
         'source': mapId,
         'layout': {
-            'icon-image': (layerMap as any)[type ?? "unkown"] ?? "rocket",
+            'icon-image': iconImage,
             'icon-size': 1.5,
             'icon-allow-overlap': true,
             'icon-anchor': 'center',
