@@ -1,5 +1,6 @@
 import { getAuth, BasicPlace } from "../../utils/endpoint";
 import { Map, Popup } from 'mapbox-gl';
+import { isMobileView } from "../../utils/view";
 
 export const createPlaces = (map: Map, places: BasicPlace[]) => {
     const group: Record<string, BasicPlace[]> = {};
@@ -45,12 +46,7 @@ export const fitAllInBounds = (map: Map, places: BasicPlace[]) => {
         return minmax;
     }, [[Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER], [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER]])
     map.fitBounds(minmax, {
-        padding: {
-            bottom: 100,
-            left: 100,
-            right: 500,
-            top: 100
-        }
+        padding: padding()
     })
 }
 
@@ -77,7 +73,6 @@ export const createLayer = (places: BasicPlace[], map: Map, type: string) => {
             return;
         }
         const feature = features[0]; 
-        console.log(feature, (feature as any).setPopup);
         return feature.properties as BasicPlace;
     }
 
@@ -117,7 +112,7 @@ export const createLayer = (places: BasicPlace[], map: Map, type: string) => {
         'source': mapId,
         'layout': {
             'icon-image': iconImage,
-            'icon-size': 1.5,
+            'icon-size': iconImage === "place-low" ? 1.0 : 1.5,
             'icon-allow-overlap': true,
             'icon-anchor': 'center',
             'text-optional': true,
@@ -151,9 +146,9 @@ export const createLayer = (places: BasicPlace[], map: Map, type: string) => {
 
         map.easeTo({
             center: [props.Longitude, props.Latitude],
-            zoom: Math.max(map.getZoom(), 12)
+            zoom: Math.max(map.getZoom(), 12),
+            padding: padding()
         })
-
 
         onClick(props);
     });
@@ -191,4 +186,18 @@ const onClick = (place: BasicPlace) => {
     const el = document.createElement("place-details");
     el.setAttribute("pageId", place.Id);
     text.appendChild(el);
+}
+
+function padding() {
+    return isMobileView() ? {
+        bottom: 500,
+        left: 10,
+        right: 10,
+        top: 10
+    } : {
+        bottom: 100,
+        left: 100,
+        right: 500,
+        top: 100
+    };
 }
