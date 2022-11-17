@@ -7,10 +7,11 @@
 
 ## Properties
 
-| Property | Attribute | Description | Type                                                                                   | Default     |
-| -------- | --------- | ----------- | -------------------------------------------------------------------------------------- | ----------- |
-| `pageId` | `pageid`  |             | `string`                                                                               | `undefined` |
-| `place`  | --        |             | `{ PlaceProps: Place; PageText: string; Wikipedia: WikipediaData; imageUrl: string; }` | `undefined` |
+| Property     | Attribute     | Description | Type                                                                                   | Default     |
+| ------------ | ------------- | ----------- | -------------------------------------------------------------------------------------- | ----------- |
+| `mapOptions` | `map-options` |             | `string`                                                                               | `undefined` |
+| `pageId`     | `pageid`      |             | `string`                                                                               | `undefined` |
+| `place`      | --            |             | `{ PlaceProps: Place; PageText: string; Wikipedia: WikipediaData; imageUrl: string; }` | `undefined` |
 
 
 ## Events

@@ -2,6 +2,10 @@ import { Component, h, Prop, Element, State, Event, EventEmitter } from '@stenci
 import { getPlace, WikipediaData } from '../../utils/endpoint';
 import type { PlaceDetails } from '../../utils/endpoint';
 
+type MapOptions = {
+  center: [number, number],
+  zoom: number
+}
 
 @Component({
   tag: 'place-details',
@@ -12,6 +16,10 @@ export class PlaceDetailsComp {
   @Prop({
     attribute:"pageid"
   }) pageId: string;
+
+  @Prop({
+    attribute: "map-options"
+  }) mapOptions?: string;
 
   @Prop() place: PlaceDetails;
 
@@ -62,6 +70,10 @@ export class PlaceDetailsComp {
   close() {
     this.detailClose.emit();
     this.el.parentElement?.removeChild(this.el);
+    if (this.mapOptions) {
+      const mapOptions = JSON.parse(this.mapOptions) as MapOptions;
+      document.getElementsByTagName("places-map")[0].getMap().then(map => map.easeTo(mapOptions))
+    }
   }
 
   getContent(content: string) {

@@ -13,6 +13,7 @@ export namespace Components {
         "longitude": number;
     }
     interface PlaceDetails {
+        "mapOptions"?: string;
         "pageId": string;
         "place": PlaceDetails;
     }
@@ -55,6 +56,7 @@ declare namespace LocalJSX {
         "longitude"?: number;
     }
     interface PlaceDetails {
+        "mapOptions"?: string;
         "onDetailClose"?: (event: PlaceDetailsCustomEvent<any>) => void;
         "pageId"?: string;
         "place"?: PlaceDetails;

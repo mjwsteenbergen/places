@@ -144,13 +144,18 @@ export const createLayer = (places: BasicPlace[], map: Map, type: string) => {
     map.on('click', mapId, (event) => {
         const props = getSelectedPlace(event);        
 
+        const originaleCenter = {
+            center: map.getCenter(),
+            zoom: map.getZoom()
+        };
+
         map.easeTo({
             center: [props.Longitude, props.Latitude],
             zoom: Math.max(map.getZoom(), 12),
             padding: padding()
         })
 
-        onClick(props);
+        onClick(props, originaleCenter);
     });
 }
 
@@ -175,7 +180,7 @@ const popup = (place: BasicPlace) => {
     <p class="placetype">${place.Type}</p></div>`)
 }
 
-const onClick = (place: BasicPlace) => {
+const onClick = (place: BasicPlace, mapOptions: any) => {
     if (!place) {
         return;
     }
@@ -185,6 +190,7 @@ const onClick = (place: BasicPlace) => {
 
     const el = document.createElement("place-details");
     el.setAttribute("pageId", place.Id);
+    el.setAttribute("map-options", JSON.stringify(mapOptions));
     text.appendChild(el);
 }
 
