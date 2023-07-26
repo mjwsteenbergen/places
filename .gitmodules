@@ -1,6 +1,3 @@
-[submodule "places/design-system"]
-	path = places/design-system
-	url = https://github.com/mjwsteenbergen/design-system.git
 [submodule "place/design-system"]
 	path = place/design-system
 	url = https://github.com/mjwsteenbergen/design-system.git
