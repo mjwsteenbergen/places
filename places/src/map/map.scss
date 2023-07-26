@@ -1,0 +1,59 @@
+.mapboxgl-popup-content {
+    padding: 20px !important;
+    padding-bottom: 0 !important;
+
+    .mapboxgl-popup-close-button {
+        display: none;
+    }
+
+    a {
+        font-size: larger;
+    }
+
+    h1 {
+        line-height: initial;
+        margin: 0;
+        font-size: x-large;
+    }
+
+    .popup {
+        &_background {
+            background-size: cover;
+            margin: -20px -20px 0 -20px;
+            display: flex;
+            flex-direction: column;
+            height: 150px;
+            justify-content: flex-end;
+
+            h1 {
+                padding:20px;
+                color: white;
+            }
+        }
+    }
+
+    .desc-container {
+        margin: 5px 0px;
+
+        h3 {
+            margin: 10px 0px 0px 0px;
+            padding: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+
+.mapboxgl-marker {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-family: "DIN Pro";
+}
+
+.mapboxgl-marker .placeName {
+    max-width: 80px;
+    margin: 0;
+}
