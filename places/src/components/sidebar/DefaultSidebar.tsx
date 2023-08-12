@@ -1,17 +1,17 @@
-import { PinAlt, Plus, NavArrowDown } from "iconoir-react";
+import { NavArrowDown, PinAlt, Plus } from "iconoir-react";
 import { PropsWithChildren, useState } from "react";
+import { useMapboxMap } from "../../context/mapbox-gl";
 import { useFilteredPlaces, usePageState } from "../../context/page-state";
+import { usePlacesContext } from "../../context/places";
 import { cachedApi, getAuth } from "../../endpoint";
-import { SidebarItem2 } from "../sidebar";
+import { Badge } from "../badge";
 import {
+  ContentContainer,
   HeaderContainer,
   HeaderTextBox,
-  ContentContainer,
   SideBarContainer,
 } from "./Sidebar";
-import { Badge } from "../badge";
-import { usePlacesContext } from "../../context/places";
-import { useMapboxMap } from "../../context/mapbox-gl";
+import { SidebarListItem } from "./SidebarListItem";
 
 export const DefaultSidebar = () => {
   const [expanded, setExpanded] = useState(true);
@@ -129,7 +129,7 @@ export const DefaultSidebar = () => {
       <ContentContainer expanded={expanded}>
         <ul className="reset grid gap-1">
           {filteredSource.map((place) => (
-            <SidebarItem2
+            <SidebarListItem
               place={place}
               onClick={() => {
                 setSelectedPlace(place);

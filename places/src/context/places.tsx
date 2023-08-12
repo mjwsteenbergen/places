@@ -23,7 +23,7 @@ export const PlacesContext: FunctionComponent<{ children: ReactNode }> = ({
 }) => {
   const [places, setPlaces] = useState<BasicPlace[]>([]);
   useEffect(() => {
-    cachedApi.getPlaces().then((i) => setPlaces(i.Reply.Result));
+    cachedApi.getPlaces().then((i) => setPlaces(i.Reply.Result ?? []));
   }, []);
 
   const value = {

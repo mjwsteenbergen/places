@@ -10,7 +10,7 @@ import { usePageState } from "../../context/page-state";
 import { useEffect, useState } from "react";
 import { useMapboxMap } from "../../context/mapbox-gl";
 import { BasicPlace, cachedApi } from "../../endpoint";
-import { SidebarItem2 } from "../sidebar";
+import { SidebarListItem } from "./SidebarListItem";
 
 export const LocalPlacesView = ({
   localPlaces,
@@ -32,7 +32,7 @@ export const LocalPlacesView = ({
       <ContentContainer expanded>
         <ul className="reset grid gap-1">
           {localPlaces.map((i) => (
-            <SidebarItem2
+            <SidebarListItem
               place={i}
               onClick={() => {
                 setSelectedPlace(i);

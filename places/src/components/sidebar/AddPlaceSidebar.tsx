@@ -1,25 +1,24 @@
 import { Cancel } from "iconoir-react";
+import { useState } from "react";
+import { usePageState } from "../../context/page-state";
+import { BasicPlace, cachedApi, debounce } from "../../endpoint";
 import {
   ContentContainer,
   HeaderContainer,
   HeaderTextBox,
   SideBarContainer,
 } from "./Sidebar";
-import { usePageState } from "../../context/page-state";
-import { useEffect, useState } from "react";
-import { SidebarItem2 } from "../sidebar";
-import { BasicPlace, cachedApi, debounce } from "../../endpoint";
+import { SidebarListItem } from "./SidebarListItem";
 
 export const AddPlaceSidebar = () => {
-  const { setView, setGoogleResults, googleResults, setSelectedPlace } =
+  const { setGoogleResults, googleResults, setSelectedPlace } =
     usePageState();
-  const [searchText, setSearchText] = useState<string | undefined>(undefined);
 
   return (
     <SideBarContainer>
       <HeaderContainer>
         <HeaderTextBox
-          onChange={(e) => (searchForName as unknown)(e, setGoogleResults)}
+          onChange={(e) => searchForName(e, setGoogleResults)}
         />
 
         <button
@@ -34,7 +33,7 @@ export const AddPlaceSidebar = () => {
       <ContentContainer expanded>
         <ul className="reset grid gap-1">
           {(googleResults ?? []).map((place) => (
-            <SidebarItem2
+            <SidebarListItem
               place={place}
               onClick={() => {
                 setSelectedPlace(place);

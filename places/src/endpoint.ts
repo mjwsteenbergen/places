@@ -226,7 +226,7 @@ export const cachedApi = {
     search: cache(search, 60, true)
 }
 
-export function debounce(func: any, wait: number, immediate: boolean) {
+export function debounce(func: any, wait: number, immediate: boolean): any {
     // 'private' variable for instance
     // The returned function will be able to reference this due to closure.
     // Each call to the returned function will share this common timer.
