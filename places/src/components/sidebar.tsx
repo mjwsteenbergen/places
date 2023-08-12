@@ -2,7 +2,6 @@ import { ReactNode, useCallback, useEffect, useState } from "react";
 import { Badge } from "./badge"
 import { useFilteredPlaces, usePageState } from "../context/page-state"
 import { BasicPlace, Place, PlaceDetails, WikipediaData, cachedApi } from "../endpoint";
-import { PlaceDetailsComp } from "./placeDetails";
 import { usePlacesContext } from "../context/places";
 import { useMapboxMap } from "../context/mapbox-gl";
 import { createLayer, createPlaces, fitAllInBounds } from "../map/createPlaces";
@@ -23,7 +22,6 @@ export const SideBar = () => {
     }, [selectedPlace])
 
     return <aside className={"w-1/5 bg-white m-5 p-4 rounded-xl pointer-events-auto flex flex-col transition-all duration-200" + (pageDetails ? "" : " translate-x-[110%]")}>
-        {pageDetails && <PlaceDetailsComp place={pageDetails} close={() => setPageDetails(undefined)} />}
         {!pageDetails && <p>Find your place</p>}
     </aside>
 }
@@ -70,17 +68,17 @@ export const SideBar2 = () => {
     const { places: allPlaces } = usePlacesContext();
     const [map] = useMapboxMap();
     const [showPlaces, setShowPlaces] = useState(false);
-    const { selectedPlace, filter, setFilter, setSelectedPlace, localPlaces, setLocalPlaces } = usePageState();
+    const { selectedPlace, attractionFilter: filter, setAttractionFilter: setFilter, setSelectedPlace, localPlaces, setLocalPlaces } = usePageState();
     const filteredSource = useFilteredPlaces();
     const resetSelectedPlace = () => {
         if (selectedPlace !== undefined) {
             setSelectedPlace(undefined);
         }
     };
-    const { tags: filterTag } = filter;
+    const { collection: filterTag } = filter;
     console.log("filterTag", filterTag);
-    const setFilterTag = (tags: string[]) => setFilter({ ...filter, tags });
-    const setFilterText = (text: string) => setFilter({ ...filter, name: text });
+    const setFilterTag = (tags: string[]) => setFilter({ ...filter, collection: tags });
+    const setFilterText = (text: string) => setFilter({ ...filter, attraction: text });
 
 
     let xtra = <></>;
@@ -178,7 +176,6 @@ export const SidebarItem = ({ place, selected, setSelected }: SidebarItemProps) 
     }, [placeDetails, selected])
 
     return <li className={"bg-white max-w-lg px-5" + (selected === 'selected' ? " rounded-lg my-5 py-5" : " mb-0 mt-0") + (selected === 'other-selected' ? "" : "")} onClick={() => setSelected()}>
-        {selected === 'selected' && placeDetails ? <PlaceDetailsComp place={placeDetails} close={() => { }} /> : <h4>{place.Name}</h4>}
     </li>
 }
 
@@ -191,7 +188,7 @@ const map: Record<BasicPlace['Type'], ReactNode> = {
     "unknown": <QuestionMark />
 };
 
-const SidebarItem2 = ({ place, onClick }: SidebarItem2Props) => {
+export const SidebarItem2 = ({ place, onClick }: SidebarItem2Props) => {
     return <li className="bg-white max-w-lg px-5 cursor-pointer" onClick={onClick}>
         <h4 className="flex gap-2 text-ellipsis">{map[place.Type] ?? map['unknown']} {place.Name}</h4>
     </li>
@@ -218,8 +215,6 @@ export const ExpandedSideBarItem = ({ place, close }: ExpandedSideBarItemProps) 
     const res = () => {
         if (place.Type === "GoogleResultPlace") {
             return<GooglePlaceDetails place={place} />
-        } else if (placeDetails) {
-            return <PlaceDetailsComp place={placeDetails} close={close} />;
         } else {
             return <p>Loading...</p>;
         }

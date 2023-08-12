@@ -2,25 +2,24 @@ import { MapboxContext } from './context/mapbox-gl'
 import { PlacesContext } from './context/places'
 import { Map } from './map/map'
 import { Overlay } from './components/overlay'
-import { SideBar2 } from './components/sidebar'
+import { SideBar } from './components/sidebar/Sidebar'
 import { PageStateContextProvider } from './context/page-state'
 import { ErrorBoundary } from './components/errorBoundary'
 
 export default function App() {
 
-      return <ErrorBoundary>
-        <PlacesContext>
+      return <PlacesContext>
           <MapboxContext>
             <PageStateContextProvider>
               <Map />
               <Overlay>
-                <SideBar2 />
+                <SideBar />
               </Overlay>
             </PageStateContextProvider>
           </MapboxContext>
         </PlacesContext>
 
-      </ErrorBoundary>
+      
 
   
 }
