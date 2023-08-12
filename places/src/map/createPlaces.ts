@@ -59,13 +59,17 @@ export const fitAllInBounds = (map: Map, places: BasicPlace[]) => {
 }
 
 const layerMap = {
-    "Place to visit": "attraction",
-    "Place to eat": "restaurant",
+    "Place to Visit": "attraction",
+    "Place to Eat": "restaurant",
     "Vacation Highlight": "embassy",
     "Vacation Option": "place-low",
     "WikipediaPlace": "attraction",
     "Atlas Obscura Place": "attraction",
     "GoogleResultPlace": "attraction",
+    "Experience": "attraction",
+    "City": "city",
+    "Museum": "museum",
+    "Point of interest": "place-low",
     "unknown": "rocket"
 };
 
