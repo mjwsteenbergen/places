@@ -23,6 +23,7 @@ export const DefaultSidebar = () => {
     setSelectedPlace,
     attractionFilter,
     setAttractionFilter,
+    collectionFilter,
     setCollectionFilter,
     setLocalPlaces,
     setGoogleResults,
@@ -105,12 +106,9 @@ export const DefaultSidebar = () => {
       </HeaderContainer>
       <OptionBar>
         {collections.length > 1 && (
-          <select
-            defaultValue="All"
-            onChange={(e) => onChangeCollectionFilter(e.target.value)}
-          >
+          <select onChange={(e) => onChangeCollectionFilter(e.target.value)}>
             {collections.map((i) => (
-              <option>{i}</option>
+              <option selected={collectionFilter === (i ?? "All")}>{i}</option>
             ))}
           </select>
         )}

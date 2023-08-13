@@ -11,15 +11,13 @@ import {
 import { SidebarListItem } from "./SidebarListItem";
 
 export const AddPlaceSidebar = () => {
-  const { setGoogleResults, googleResults, setSelectedPlace } =
+  const { setGoogleResults, googleResults, setSelectedAddPlace } =
     usePageState();
 
   return (
     <SideBarContainer>
       <HeaderContainer>
-        <HeaderTextBox
-          onChange={(e) => searchForName(e, setGoogleResults)}
-        />
+        <HeaderTextBox onChange={(e) => searchForName(e, setGoogleResults)} />
 
         <button
           className={"text-xs p-3"}
@@ -36,7 +34,7 @@ export const AddPlaceSidebar = () => {
             <SidebarListItem
               place={place}
               onClick={() => {
-                setSelectedPlace(place);
+                setSelectedAddPlace(place);
               }}
             />
           ))}

@@ -5,27 +5,33 @@ import { PlaceDetailSidebar } from "./DetailedSidebar";
 import { usePageState } from "../../context/page-state";
 import { LocalPlacesView } from "./LocalPlacesSidebar";
 import { AddPlaceSidebar } from "./AddPlaceSidebar";
+import { SelectedAddPlaceSidebar } from "./SelectedAddPlaceSidebar";
 
 export const SideBarContainer = ({ children }: PropsWithChildren<{}>) => {
   return (
-    <section className="justify-start m-5 flex flex-col gap-5 overflow-hidden w-[50ch] max-w-full">
+    <section className="max-md:flex-col-reverse justify-start m-5 flex flex-col gap-5 overflow-hidden w-[50ch] max-w-full">
       {children}
     </section>
   );
 };
 
 export const SideBar = () => {
-  const { selectedPlace, googleResults, localPlaces } = usePageState();
+  const { selectedPlace, googleResults, localPlaces, selectedAddPlace } =
+    usePageState();
   if (selectedPlace) {
     return <PlaceDetailSidebar selectedPlace={selectedPlace} />;
+  }
+
+  if (selectedAddPlace) {
+    return <SelectedAddPlaceSidebar selectedPlace={selectedAddPlace} />;
   }
 
   if (localPlaces) {
     return <LocalPlacesView localPlaces={localPlaces} />;
   }
 
-  if(googleResults) {
-    return <AddPlaceSidebar/>
+  if (googleResults) {
+    return <AddPlaceSidebar />;
   }
 
   return <DefaultSidebar />;
