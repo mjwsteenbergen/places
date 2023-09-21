@@ -30,11 +30,13 @@ type PageState = {
   setGoogleResults: OfState<BasicPlace[] | undefined>[1];
   view: OfState<PageView>[0];
   setView: OfState<PageView>[1];
+  places: BasicPlace[];
 };
 
 export const PageStateContextProvider: FunctionComponent<{
   children: ReactNode;
 }> = ({ children }) => {
+  const { places: placesContextPlaces } = usePlacesContext();
   const [collectionFilter, setCollectionFilter] = useState<string | undefined>(
     undefined
   );
@@ -52,6 +54,7 @@ export const PageStateContextProvider: FunctionComponent<{
     BasicPlace | undefined
   >(undefined);
   const [view, setView] = useState<PageView>(undefined);
+  const places = placesContextPlaces.concat(localPlaces ?? []).concat(googleResults ?? []);
   const state = {
     selectedPlace,
     setSelectedPlace,
@@ -67,6 +70,7 @@ export const PageStateContextProvider: FunctionComponent<{
     setSelectedAddPlace,
     view,
     setView,
+    places
   };
   return (
     <PageStateContext.Provider value={state}>
@@ -76,9 +80,7 @@ export const PageStateContextProvider: FunctionComponent<{
 };
 
 export const useFilteredPlaces = () => {
-  const { attractionFilter, collectionFilter } = usePageState();
-  const { places } = usePlacesContext();
-
+  const { attractionFilter, collectionFilter, places } = usePageState();
   let filteredPlaces = places;
 
   if (attractionFilter.length > 0) {

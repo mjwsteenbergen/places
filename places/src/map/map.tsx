@@ -79,7 +79,7 @@ export const Map: FunctionComponent = () => {
         if (map?.getLayer && filteredPlaces.length > 0) {
             if (map.loaded()) {
                 createPlaces(map, filteredPlaces);
-                if (filteredPlaces.length !== allPlaces.length) {
+                if (filteredPlaces.length < allPlaces.length) {
                     fitAllInBounds(map, filteredPlaces);
                 }
                 if (getAuth().collectionId) {
