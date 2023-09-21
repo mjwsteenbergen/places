@@ -15,7 +15,7 @@ const map: Record<BasicPlace['Type'], ReactNode> = {
 };
 
 export const SidebarListItem = ({ place, onClick }: SidebarItem2Props) => {
-    return <li className="bg-white max-w-lg px-5 cursor-pointer" onClick={onClick}>
+    return <li className="bg-white dark:bg-black-900 max-w-lg px-5 cursor-pointer" onClick={onClick}>
         <h4 className="flex gap-2 text-ellipsis">{map[place.Type] ?? map['unknown']} {place.Name}</h4>
     </li>
 }

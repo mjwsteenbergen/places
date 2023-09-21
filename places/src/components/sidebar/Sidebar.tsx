@@ -70,7 +70,7 @@ export const HeaderTextBox = ({ onChange }: HProps) => {
 };
 
 const contentVariant = cva(
-  "transition-all pointer-events-auto rounded-lg bg-white flex flex-col max-w-xl overflow-x-auto",
+  "transition-all pointer-events-auto rounded-lg bg-white dark:bg-black-900 flex flex-col max-w-xl overflow-x-auto ",
   {
     variants: {
       expanded: {
