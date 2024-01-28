@@ -4,7 +4,12 @@ import { SideBarContainer, HeaderContainer, ContentContainer } from "./Sidebar";
 import { useState, useEffect, useTransition } from "react";
 import { useMapboxMap } from "../../context/mapbox-gl";
 import { usePageState } from "../../context/page-state";
-import { BasicPlace, PlaceDetails, cachedApi, getPlaces } from "../../endpoint";
+import {
+  BasicPlace,
+  PlaceDetails,
+  getPlaces,
+  useAddPlace,
+} from "../../endpoint";
 import { usePlacesContext } from "../../context/places";
 
 export const SelectedAddPlaceSidebar = ({
@@ -12,9 +17,9 @@ export const SelectedAddPlaceSidebar = ({
 }: {
   selectedPlace: BasicPlace;
 }) => {
-  const { setSelectedAddPlace, setGoogleResults } = usePageState();
-  const { setPlaces } = usePlacesContext();
+  const { setSelectedAddPlace, setSearchQuery } = usePageState();
   const [map] = useMapboxMap();
+  const { mutate } = useAddPlace(selectedPlace.Id);
 
   useEffect(() => {
     if (map) {
@@ -37,35 +42,16 @@ export const SelectedAddPlaceSidebar = ({
     }
   }, []);
 
-  const add = (place: BasicPlace) => {
-    cachedApi.search(place.Id).then((i) => {
-      if (Array.isArray(i)) {
-        setSelectedAddPlace(undefined);
-      } else {
-        setTimeout(() => {
-          getPlaces().then((places) => {
-            const newPlace = places.Reply.Result.find(
-              (i) => i.Name === place.Name
-            );
-            setPlaces(places.Reply.Result);
-            if (newPlace) {
-              console.log("found place", newPlace);
-              setSelectedAddPlace(newPlace);
-            } else {
-              console.log("could not find place");
-              setSelectedAddPlace(undefined);
-            }
-          });
-        }, 1000);
-      }
-      setGoogleResults(undefined);
-    });
+  const add = () => {
+    mutate();
+    setSearchQuery(undefined);
+    setSelectedAddPlace(undefined);
   };
 
   return (
     <SideBarContainer>
       <HeaderContainer className="justify-end">
-        <button className={"text-xs p-3"} onClick={() => add(selectedPlace)}>
+        <button className={"text-xs p-3"} onClick={() => add()}>
           <Plus />
         </button>
         <button

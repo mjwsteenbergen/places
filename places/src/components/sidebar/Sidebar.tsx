@@ -2,10 +2,11 @@ import { PropsWithChildren } from "react";
 import { cva } from "class-variance-authority";
 import { DefaultSidebar } from "./DefaultSidebar";
 import { PlaceDetailSidebar } from "./DetailedSidebar";
-import { usePageState } from "../../context/page-state";
+import { useFilteredPlaces, usePageState } from "../../context/page-state";
 import { LocalPlacesView } from "./LocalPlacesSidebar";
 import { AddPlaceSidebar } from "./AddPlaceSidebar";
 import { SelectedAddPlaceSidebar } from "./SelectedAddPlaceSidebar";
+import { useLocalPlaces, usePlaces } from "../../endpoint";
 
 export const SideBarContainer = ({ children }: PropsWithChildren<{}>) => {
   return (
@@ -16,21 +17,26 @@ export const SideBarContainer = ({ children }: PropsWithChildren<{}>) => {
 };
 
 export const SideBar = () => {
-  const { selectedPlace, googleResults, localPlaces, selectedAddPlace } =
+  const { selectedPlace, searchQuery, localPlaces, selectedAddPlace } =
     usePageState();
-  if (selectedPlace) {
-    return <PlaceDetailSidebar selectedPlace={selectedPlace} />;
+  const data = useFilteredPlaces();
+  const { data: calcLocalPlaces } = useLocalPlaces(localPlaces);
+
+  const calcSelectedPlace = data && data.find((i) => i.Id === selectedPlace);
+
+  if (calcSelectedPlace) {
+    return <PlaceDetailSidebar selectedPlace={calcSelectedPlace} />;
   }
 
   if (selectedAddPlace) {
     return <SelectedAddPlaceSidebar selectedPlace={selectedAddPlace} />;
   }
 
-  if (localPlaces) {
-    return <LocalPlacesView localPlaces={localPlaces} />;
+  if (calcLocalPlaces) {
+    return <LocalPlacesView localPlaces={calcLocalPlaces} />;
   }
 
-  if (googleResults) {
+  if (searchQuery !== undefined) {
     return <AddPlaceSidebar />;
   }
 

@@ -3,32 +3,31 @@ import {
   FunctionComponent,
   ReactNode,
   useState,
-  useEffect,
   useContext,
 } from "react";
-import { BasicPlace, cachedApi } from "../endpoint";
+import { BasicPlace, usePlaces } from "../endpoint";
 
 type PlaceContextType = {
   places: BasicPlace[];
-  setPlaces: (places: BasicPlace[]) => void;
+  setOverridePlaces: (places: BasicPlace[]) => void;
 };
 
 const PlaceContext = createContext<PlaceContextType>({
   places: [],
-  setPlaces: () => {},
+  setOverridePlaces: () => {},
 });
 
 export const PlacesContext: FunctionComponent<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [places, setPlaces] = useState<BasicPlace[]>([]);
-  useEffect(() => {
-    cachedApi.getPlaces().then((i) => setPlaces(i.Reply.Result ?? []));
-  }, []);
+  const { data } = usePlaces();
+  const [places, setOverridePlaces] = useState<BasicPlace[] | undefined>(
+    undefined
+  );
 
   const value = {
-    places,
-    setPlaces,
+    places: places ?? data ?? [],
+    setOverridePlaces,
   };
 
   return (

@@ -1,7 +1,7 @@
 import { Cancel } from "iconoir-react";
 import { useState } from "react";
 import { usePageState } from "../../context/page-state";
-import { BasicPlace, cachedApi, debounce } from "../../endpoint";
+import { BasicPlace, useSearch } from "../../endpoint";
 import {
   ContentContainer,
   HeaderContainer,
@@ -11,18 +11,18 @@ import {
 import { SidebarListItem } from "./SidebarListItem";
 
 export const AddPlaceSidebar = () => {
-  const { setGoogleResults, googleResults, setSelectedAddPlace } =
-    usePageState();
+  const { setSearchQuery, searchQuery, setSelectedAddPlace } = usePageState();
+  const { data } = useSearch(searchQuery);
 
   return (
     <SideBarContainer>
       <HeaderContainer>
-        <HeaderTextBox onChange={(e) => searchForName(e, setGoogleResults)} />
+        <HeaderTextBox onChange={(e) => setSearchQuery(e)} />
 
         <button
           className={"text-xs p-3"}
           onClick={() => {
-            setGoogleResults(undefined);
+            setSearchQuery(undefined);
           }}
         >
           <Cancel />
@@ -30,32 +30,18 @@ export const AddPlaceSidebar = () => {
       </HeaderContainer>
       <ContentContainer expanded>
         <ul className="reset grid gap-1">
-          {(googleResults ?? []).map((place) => (
-            <SidebarListItem
-              place={place}
-              onClick={() => {
-                setSelectedAddPlace(place);
-              }}
-            />
-          ))}
+          {data &&
+            Array.isArray(data) &&
+            data.map((place) => (
+              <SidebarListItem
+                place={place}
+                onClick={() => {
+                  setSelectedAddPlace(place);
+                }}
+              />
+            ))}
         </ul>
       </ContentContainer>
     </SideBarContainer>
   );
 };
-
-const searchForName = debounce(
-  (name: string, setGoogleResults: (place: BasicPlace[]) => void) => {
-    cachedApi.search(name).then((i) => {
-      if (Array.isArray(i)) {
-        if (i.length > 0) {
-          setGoogleResults(i);
-          return;
-        }
-      }
-      setGoogleResults([]);
-    });
-  },
-  500,
-  false
-);

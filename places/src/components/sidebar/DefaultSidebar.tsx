@@ -3,7 +3,7 @@ import { PropsWithChildren, useState } from "react";
 import { useMapboxMap } from "../../context/mapbox-gl";
 import { useFilteredPlaces, usePageState } from "../../context/page-state";
 import { usePlacesContext } from "../../context/places";
-import { cachedApi, getAuth } from "../../endpoint";
+import { getAuth } from "../../endpoint";
 import { Badge } from "../badge";
 import {
   ContentContainer,
@@ -26,7 +26,7 @@ export const DefaultSidebar = () => {
     collectionFilter,
     setCollectionFilter,
     setLocalPlaces,
-    setGoogleResults,
+    setSearchQuery,
     setView,
   } = usePageState();
   const [filterText, setFilterText] = useState("");
@@ -41,9 +41,7 @@ export const DefaultSidebar = () => {
   const getLocalPlaces = () => {
     if (map) {
       const { lat, lng } = map.getCenter();
-      cachedApi.getLocalPlaces(lat, lng).then(async (i) => {
-        setLocalPlaces(i.Reply.Result ?? []);
-      });
+      setLocalPlaces([lat, lng]);
     }
   };
 
@@ -91,7 +89,7 @@ export const DefaultSidebar = () => {
           </button>
         )}
         {getAuth().token && (
-          <button className="text-xs p-3" onClick={() => setGoogleResults([])}>
+          <button className="text-xs p-3" onClick={() => setSearchQuery("as")}>
             <Plus />
           </button>
         )}
@@ -130,7 +128,7 @@ export const DefaultSidebar = () => {
             <SidebarListItem
               place={place}
               onClick={() => {
-                setSelectedPlace(place);
+                setSelectedPlace(place.Id);
               }}
             />
           ))}

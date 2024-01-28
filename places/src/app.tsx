@@ -1,15 +1,31 @@
 import { MapboxContext } from "./context/mapbox-gl";
-import { PlacesContext } from "./context/places";
 import { Map } from "./map/map";
 import { Overlay } from "./components/overlay";
 import { SideBar } from "./components/sidebar/Sidebar";
 import { PageStateContextProvider } from "./context/page-state";
 
 import "./app.scss";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { persistQueryClient } from "@tanstack/react-query-persist-client";
+
+const createQueryClient = () => {
+  const queryClient = new QueryClient();
+
+  const localStoragePersister = createSyncStoragePersister({
+    storage: window.localStorage,
+  });
+
+  persistQueryClient({
+    queryClient,
+    persister: localStoragePersister,
+  });
+  return queryClient;
+};
 
 export default function App() {
   return (
-    <PlacesContext>
+    <QueryClientProvider client={createQueryClient()}>
       <PageStateContextProvider>
         <MapboxContext>
           <Map />
@@ -18,6 +34,6 @@ export default function App() {
           </Overlay>
         </MapboxContext>
       </PageStateContextProvider>
-    </PlacesContext>
+    </QueryClientProvider>
   );
 }

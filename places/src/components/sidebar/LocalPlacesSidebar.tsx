@@ -7,9 +7,7 @@ import {
   HeaderTextBox,
 } from "./Sidebar";
 import { usePageState } from "../../context/page-state";
-import { useEffect, useState } from "react";
-import { useMapboxMap } from "../../context/mapbox-gl";
-import { BasicPlace, cachedApi } from "../../endpoint";
+import { BasicPlace } from "../../endpoint";
 import { SidebarListItem } from "./SidebarListItem";
 
 export const LocalPlacesView = ({
@@ -35,7 +33,7 @@ export const LocalPlacesView = ({
             <SidebarListItem
               place={i}
               onClick={() => {
-                setSelectedPlace(i);
+                setSelectedPlace(i.Id);
               }}
             />
           ))}

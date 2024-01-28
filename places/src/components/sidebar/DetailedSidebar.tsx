@@ -4,11 +4,11 @@ import { useMapboxMap } from "../../context/mapbox-gl";
 import { usePageState } from "../../context/page-state";
 import {
   BasicPlace,
-  Place,
   PlaceDetails,
   WikipediaData,
-  cachedApi,
   getAuth,
+  useFullPlace,
+  usePlaces,
 } from "../../endpoint";
 import { Badge } from "../badge";
 import { ContentContainer, HeaderContainer, SideBarContainer } from "./Sidebar";
@@ -18,12 +18,9 @@ type PSProps = {
 };
 export const PlaceDetailSidebar = ({ selectedPlace }: PSProps) => {
   const { setSelectedPlace } = usePageState();
-  const [fullPlace, setFullPlace] = useState<PlaceDetails | undefined>(undefined);
+  const { data } = usePlaces();
+  const { data: fullPlace } = useFullPlace(selectedPlace.Id);
   const [map] = useMapboxMap();
-
-  useEffect(() => {
-    cachedApi.getPlace(selectedPlace.Id).then((reply) => setFullPlace(reply.Reply.Result))
-  }, [selectedPlace]);
 
   useEffect(() => {
     if (map) {
@@ -46,7 +43,6 @@ export const PlaceDetailSidebar = ({ selectedPlace }: PSProps) => {
     }
   }, []);
 
-
   return (
     <SideBarContainer>
       <HeaderContainer className="justify-end">
@@ -58,7 +54,11 @@ export const PlaceDetailSidebar = ({ selectedPlace }: PSProps) => {
         </button>
       </HeaderContainer>
       <ContentContainer expanded>
-        {fullPlace ? <PlaceDetailsView place={fullPlace}/>  : <BasicPlaceView place={selectedPlace}/>}
+        {fullPlace ? (
+          <PlaceDetailsView place={fullPlace} />
+        ) : (
+          <BasicPlaceView place={selectedPlace} />
+        )}
       </ContentContainer>
     </SideBarContainer>
   );
@@ -68,12 +68,14 @@ type Props = {
   place: PlaceDetails;
 };
 
-export const BasicPlaceView = ({place}: { place: BasicPlace}) => {
-  return <div>
-    <h1>{place.Name}</h1>
-    <p>{place.summary}</p>
-  </div>
-}
+export const BasicPlaceView = ({ place }: { place: BasicPlace }) => {
+  return (
+    <div>
+      <h1>{place.Name}</h1>
+      <p>{place.summary}</p>
+    </div>
+  );
+};
 
 export const PlaceDetailsView = ({ place }: Props) => {
   const { PageText, PlaceProps, Wikipedia } = place;

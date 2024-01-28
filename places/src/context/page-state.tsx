@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { BasicPlace, cachedApi, debounce, getAuth } from "../endpoint";
+import { BasicPlace, useLocalPlaces, usePlaces, useSearch } from "../endpoint";
 import { usePlacesContext } from "./places";
 import { OfState } from "./mapbox-gl";
 
@@ -16,21 +16,21 @@ const PageStateContext = createContext<PageState | undefined>(undefined);
 export type PageView = "add" | "local" | undefined;
 
 type PageState = {
-  selectedPlace?: BasicPlace;
-  setSelectedPlace: OfState<BasicPlace | undefined>[1];
+  selectedPlace?: string;
+  setSelectedPlace: OfState<string | undefined>[1];
   attractionFilter: OfState<string[]>[0];
   setAttractionFilter: OfState<string[]>[1];
   collectionFilter: OfState<string | undefined>[0];
   setCollectionFilter: OfState<string | undefined>[1];
-  localPlaces?: BasicPlace[];
-  setLocalPlaces: OfState<BasicPlace[] | undefined>[1];
+  localPlaces?: [lat: number, lon: number];
+  setLocalPlaces: OfState<[lat: number, lon: number] | undefined>[1];
   selectedAddPlace?: BasicPlace;
   setSelectedAddPlace: OfState<BasicPlace | undefined>[1];
-  googleResults?: BasicPlace[];
-  setGoogleResults: OfState<BasicPlace[] | undefined>[1];
+  searchQuery?: string;
+  setSearchQuery: OfState<string | undefined>[1];
   view: OfState<PageView>[0];
   setView: OfState<PageView>[1];
-  places: BasicPlace[];
+  // places: BasicPlace[];
 };
 
 export const PageStateContextProvider: FunctionComponent<{
@@ -41,20 +41,18 @@ export const PageStateContextProvider: FunctionComponent<{
     undefined
   );
   const [attractionFilter, setAttractionFilter] = useState<string[]>([]);
-  const [selectedPlace, setSelectedPlace] = useState<BasicPlace | undefined>(
+  const [selectedPlace, setSelectedPlace] = useState<string | undefined>(
     undefined
   );
-  const [localPlaces, setLocalPlaces] = useState<BasicPlace[] | undefined>(
-    undefined
-  );
-  const [googleResults, setGoogleResults] = useState<BasicPlace[] | undefined>(
-    undefined
-  );
+  const [localPlaces, setLocalPlaces] = useState<
+    [lat: number, lon: number] | undefined
+  >(undefined);
+  const [searchQuery, setSearchQuery] = useState<string | undefined>(undefined);
   const [selectedAddPlace, setSelectedAddPlace] = useState<
     BasicPlace | undefined
   >(undefined);
   const [view, setView] = useState<PageView>(undefined);
-  const places = placesContextPlaces.concat(localPlaces ?? []).concat(googleResults ?? []);
+
   const state = {
     selectedPlace,
     setSelectedPlace,
@@ -64,13 +62,12 @@ export const PageStateContextProvider: FunctionComponent<{
     setAttractionFilter,
     localPlaces,
     setLocalPlaces,
-    googleResults,
-    setGoogleResults,
+    searchQuery,
+    setSearchQuery,
     selectedAddPlace,
     setSelectedAddPlace,
     view,
     setView,
-    places
   };
   return (
     <PageStateContext.Provider value={state}>
@@ -80,8 +77,17 @@ export const PageStateContextProvider: FunctionComponent<{
 };
 
 export const useFilteredPlaces = () => {
-  const { attractionFilter, collectionFilter, places } = usePageState();
-  let filteredPlaces = places;
+  const {
+    attractionFilter,
+    collectionFilter,
+    localPlaces,
+    searchQuery,
+  } = usePageState();
+  const { data: places } = usePlaces();
+  const { data: calcLocalPlaces } = useLocalPlaces(localPlaces);
+  const { data: searchOptions } = useSearch(searchQuery);
+
+  let filteredPlaces = (places ?? []).concat(calcLocalPlaces ?? []).concat(searchOptions ?? []);
 
   if (attractionFilter.length > 0) {
     filteredPlaces = filteredPlaces.filter((place) =>
