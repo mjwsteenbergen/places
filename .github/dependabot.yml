@@ -3,7 +3,7 @@ updates:
 - package-ecosystem: npm
   directory: "/places/"
   schedule:
-    interval: "cron
+    interval: "cron"
     cronjob: 0 9 3 * *
     timezone: Europe/Amsterdam
   open-pull-requests-limit: 20
@@ -15,7 +15,7 @@ updates:
 - package-ecosystem: "devcontainers" # See documentation for possible values
   directory: "/"
   schedule:
-    interval: "cron
+    interval: "cron"
     cronjob: 0 9 3 * *
     timezone: Europe/Amsterdam
   open-pull-requests-limit: 20
@@ -26,7 +26,7 @@ updates:
   # You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.
   directory: "/"
   schedule:
-    interval: "cron
+    interval: "cron"
     cronjob: 0 9 3 * *
     timezone: Europe/Amsterdam
   open-pull-requests-limit: 20
