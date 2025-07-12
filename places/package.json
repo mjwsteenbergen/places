@@ -10,7 +10,7 @@
     "preinstall": "sh ../init.sh"
   },
   "dependencies": {
-    "@tanstack/query-sync-storage-persister": "^5.17.19",
+    "@tanstack/query-sync-storage-persister": "^5.83.0",
     "@tanstack/react-query": "^5.17.19",
     "@tanstack/react-query-persist-client": "^5.17.19",
     "@uidotdev/usehooks": "^2.4.1",
