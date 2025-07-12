@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preinstall": "sh ../init.sh"
   },
   "dependencies": {
     "@tanstack/query-sync-storage-persister": "^5.17.19",
