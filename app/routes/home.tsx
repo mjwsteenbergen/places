@@ -1,5 +1,6 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { PlaceList, SideMenu } from "~/components/page/sidemenu/sidemenu";
+import { useDisplayedPlaces } from "~/context/displayed-places";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,5 +10,11 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  return <Welcome />;
+  const places = useDisplayedPlaces();
+
+  return (
+    <SideMenu>
+      <PlaceList />
+    </SideMenu>
+  );
 }
