@@ -55,7 +55,7 @@ export default function Place({
 
   return (
     <SideMenu>
-      <div className="flex justify-between items-center">
+      <div className="grid grid-cols-[auto_1fr] gap-2 items-center w-full">
         <Button
           className="px-3"
           disabled={navigation.state === "loading"}
@@ -149,7 +149,7 @@ const Tags = ({
   visited?: CheckboxProp;
 }) => {
   return (
-    <ul className="flex gap-2">
+    <ul className="flex gap-2 overflow-x-auto w-full">
       <li>
         <Tag filled>{type?.select.name}</Tag>
       </li>

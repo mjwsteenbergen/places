@@ -17,7 +17,7 @@ export const Button = ({ children, ...rest }: PropsWithChildren<Props>) => {
       className={twMerge(
         [
           "block text-center",
-          "bg-primary-interactive-default hover:bg-primary-interactive-hover active:bg-primary-interactive-active",
+          "bg-primary-interactive-default disabled:grayscale-75 not-disabled:hover:bg-primary-interactive-hover not-disabled:active:bg-primary-interactive-active",
           "text-neutral-text-dark-onbackground",
           "px-5 py-3 rounded",
           "shadow active:shadow-none",

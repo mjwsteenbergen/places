@@ -55,7 +55,7 @@ export type NumberProp = {
     number: number;
 }
 
-type Select = {
+export type Select = {
     id: string;
     name: string;
     color: string;

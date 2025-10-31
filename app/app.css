@@ -54,6 +54,13 @@
   --text-color-neutral-text-dark-onbackground: var(--black-50);
   --text-color-interactive-hover: var(--red-600);
   --text-color-interactive-active: var(--red-500);
+
+  --border-color-neutral-border-low: var(--black-200);
+  --border-color-neutral-border-medium: var(--black-400);
+  --border-color-neutral-border-high: var(--black-600);
+  --border-color-primary-border-high: var(--red-700);
+  --border-color-primary-border-medium: var(--red-500);
+  --border-color-primary-border-low: var(--red-300);
 }
 
 html,
