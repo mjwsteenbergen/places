@@ -74,7 +74,7 @@ export const Map = () => {
   return (
     <div
       ref={mapContainerRef}
-      className="w-screen h-[100lvh] overflow-hidden overscroll-none"
+      className="!fixed bottom-0 left-0 top-0 right-0 overflow-hidden overscroll-none"
     ></div>
   );
 };

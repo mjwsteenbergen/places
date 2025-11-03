@@ -8,12 +8,9 @@ export const getAllowedPlaces = async (
   places: NotionPlace[]
 ) => {
   const placeRows = await getAppwritePlaces(client);
-  console.log("getAllowedPlaces.placeRows", placeRows.length);
-  console.log("getAllowedPlaces.places", places.length);
   const res = places.filter((place) =>
     placeRows.some((row) => row.notion_id === place.id)
   );
-  console.log("getAllowedPlaces.res", res.length);
   return res;
 };
 

@@ -1,5 +1,10 @@
+import { Button } from "~/components/design-system/button";
 import type { Route } from "./+types/home";
-import { PlaceList, SideMenu } from "~/components/page/sidemenu/sidemenu";
+import {
+  BottomContainer,
+  PlaceList,
+  SideMenu,
+} from "~/components/page/sidemenu/sidemenu";
 import { TagList } from "~/components/page/TagList";
 import { useDisplayedPlaces } from "~/context/displayed-places";
 
@@ -15,7 +20,9 @@ export default function Home() {
 
   return (
     <SideMenu>
-      <TagList places={places} />
+      <BottomContainer>
+        <TagList places={places} className="-ml-1" />
+      </BottomContainer>
       <PlaceList />
     </SideMenu>
   );

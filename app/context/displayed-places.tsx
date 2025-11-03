@@ -24,9 +24,8 @@ const DisplayedPlacesContext = createContext<PlaceDTO[] | undefined>(undefined);
 
 export const useDisplayedPlaces = () => {
   const places = useContext(DisplayedPlacesContext);
-  console.log("useDisplayedPlaces", places);
   if (!places) {
-    throw new Error();
+    throw new Error("DisplayedPlacesContext should be defined");
   }
   return places;
 };

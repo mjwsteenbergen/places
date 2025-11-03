@@ -1,4 +1,5 @@
 import {
+  BottomContainer,
   DataContainer,
   PlaceList,
   SideMenu,
@@ -49,18 +50,9 @@ export default function Place({
 
   return (
     <SideMenu>
-      <div className="grid grid-cols-[auto_1fr] gap-2 items-center w-full">
-        <Button
-          className="px-3"
-          disabled={navigation.state === "loading"}
-          onClick={() => {
-            navigate(-1);
-          }}
-        >
-          <ArrowLeft />
-        </Button>
+      <BottomContainer>
         <Tags type={place.type} tags={place.tags} visited={place.visited} />
-      </div>
+      </BottomContainer>
       <DataContainer className="p-3">
         <Header cover={place.cover} />
         <h1 className="text-4xl mb-1">{place.name}</h1>
