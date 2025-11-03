@@ -1,6 +1,6 @@
 import { Button } from "~/components/design-system/button";
 import type { Route } from "./+types/login";
-import { createAdminClient } from "~/appwrite/server";
+import { createAdminClient } from "~/api/appwrite/server";
 import { OAuthProvider } from "node-appwrite";
 
 export async function loader({}: Route.ClientLoaderArgs) {

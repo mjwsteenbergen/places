@@ -1,17 +1,17 @@
-import type { NotionPlace, Select } from "~/api/notion/types";
 import { Tag } from "../design-system/tag";
 import { Link } from "react-router";
 import { Button } from "../design-system/button";
+import type { PlaceDTO, TagDTO } from "~/api/places/types";
 
-export const TagList = ({ places }: { places: NotionPlace[] }) => {
+export const TagList = ({ places }: { places: PlaceDTO[] }) => {
   const notionCollections = places
-    .flatMap((i) => i.properties.Tags.multi_select)
+    .flatMap((i) => i.tags)
     .reduce((acc, cur) => {
       if (!acc.some((i) => i.id === cur.id)) {
         acc.push(cur);
       }
       return acc;
-    }, [] as Select[]);
+    }, [] as TagDTO[]);
   return (
     <ul className="grid grid-flow-col gap-1 overflow-x-auto min-h-10">
       {notionCollections.map((tag) => (

@@ -17,7 +17,7 @@ export const getAllowedPlaces = async (
   return res;
 };
 
-const getAppwriteCollection = async (client: AppWriteClient) => {
+export const getAppwriteCollections = async (client: AppWriteClient) => {
   const appwriteTable = await client.database.listDocuments(
     "68ed67c5001f8347081f",
     "68fc8d17001f601bbe93",
@@ -26,7 +26,7 @@ const getAppwriteCollection = async (client: AppWriteClient) => {
   return appwriteTable.documents as unknown as AppwriteCollection[];
 };
 
-const getAppwritePlaces = async (client: AppWriteClient) => {
+export const getAppwritePlaces = async (client: AppWriteClient) => {
   const appwriteTable = await client.database.listDocuments(
     "68ed67c5001f8347081f",
     "68ed67cc0003cf18c95b",
@@ -38,7 +38,7 @@ const getAppwritePlaces = async (client: AppWriteClient) => {
 export const syncCollections = async (places: NotionPlace[]) => {
   const client = await createAdminClient();
   const { account, database, teams } = client;
-  const collectionRows = await getAppwriteCollection(client);
+  const collectionRows = await getAppwriteCollections(client);
 
   const notionCollections = places
     .flatMap((i) => i.properties.Tags.multi_select)

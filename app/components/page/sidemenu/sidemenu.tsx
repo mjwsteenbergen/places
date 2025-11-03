@@ -4,6 +4,7 @@ import type { PropsWithChildren } from "react";
 import { href, Link } from "react-router";
 import { twMerge } from "tailwind-merge";
 import type { NotionPlace } from "~/api/notion/types";
+import type { PlaceDTO } from "~/api/places/types";
 import { useDisplayedPlaces } from "~/context/displayed-places";
 
 export const SideMenu = ({ children }: PropsWithChildren) => {
@@ -44,12 +45,10 @@ export const DataContainer = ({
   );
 };
 
-export const PlaceMenuItem = ({ place }: { place: NotionPlace }) => {
+export const PlaceMenuItem = ({ place }: { place: PlaceDTO }) => {
   return (
     <MenuItem>
-      <Link to={href("/place/:id", { id: place.id })}>
-        {place.properties.Name.title.map((i) => i.plain_text).join(" ")}
-      </Link>
+      <Link to={href("/place/:id", { id: place.id })}>{place.name}</Link>
     </MenuItem>
   );
 };

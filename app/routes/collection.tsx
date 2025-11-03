@@ -23,7 +23,7 @@ export default function Collection({
   const navigation = useNavigation();
 
   const collection = places
-    .flatMap((i) => i.properties.Tags.multi_select)
+    .flatMap((i) => i.tags)
     .find((j) => j.id === collectionId);
 
   if (collection === undefined) {
@@ -32,7 +32,7 @@ export default function Collection({
   }
 
   const placesInCollection = places.filter((i) =>
-    i.properties.Tags.multi_select.some((j) => j.id === collectionId)
+    i.tags.some((j) => j.id === collectionId)
   );
 
   return (

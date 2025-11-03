@@ -2,20 +2,20 @@ import mapbox, { type Map, type Popup } from "mapbox-gl";
 import { isMobileView } from "./view";
 import { renderToString } from "react-dom/server";
 import { getStateSetter } from "./map";
-import type { NotionPlace } from "~/api/notion/types";
 import "./map.scss";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { type useNavigate } from "react-router";
+import type { PlaceDTO } from "~/api/places/types";
 
 export const createPlaces = (
   map: Map,
-  places: NotionPlace[],
+  places: PlaceDTO[],
   navigate: ReturnType<typeof useNavigate>
 ) => {
-  const group: Record<string, NotionPlace[]> = {};
+  const group: Record<string, PlaceDTO[]> = {};
 
   places.forEach((place) => {
-    const name = place.properties.Type?.select?.name;
+    const name = place.type;
     console.log("name", name);
 
     if (!group[name ?? "unknown"]) {
@@ -48,24 +48,24 @@ export const createPlaces = (
   });
 };
 
-export const fitAllInBounds = (map: Map, places: NotionPlace[]) => {
+export const fitAllInBounds = (map: Map, places: PlaceDTO[]) => {
   const minmax: [[number, number], [number, number]] = places.reduce(
     (minmax, cur) => {
       const [max, min] = minmax;
-      if (cur.properties.Longitude.number > max[0]) {
-        minmax[0][0] = cur.properties.Longitude.number;
+      if (cur.longitude > max[0]) {
+        minmax[0][0] = cur.longitude;
       }
 
-      if (cur.properties.Latitude.number > max[1]) {
-        minmax[0][1] = cur.properties.Latitude.number;
+      if (cur.latitude > max[1]) {
+        minmax[0][1] = cur.latitude;
       }
 
-      if (cur.properties.Longitude.number < min[0]) {
-        minmax[1][0] = cur.properties.Longitude.number;
+      if (cur.longitude < min[0]) {
+        minmax[1][0] = cur.longitude;
       }
 
-      if (cur.properties.Latitude.number < min[1]) {
-        minmax[1][1] = cur.properties.Latitude.number;
+      if (cur.latitude < min[1]) {
+        minmax[1][1] = cur.latitude;
       }
 
       return minmax;
@@ -98,7 +98,7 @@ const layerMap = {
 };
 
 export const createLayer = (
-  places: NotionPlace[],
+  places: PlaceDTO[],
   map: Map,
   type: string,
   navigate: ReturnType<typeof useNavigate>
@@ -109,7 +109,7 @@ export const createLayer = (
     event: mapboxgl.MapMouseEvent & {
       features?: mapboxgl.MapboxGeoJSONFeature[];
     }
-  ): NotionPlace | undefined => {
+  ): PlaceDTO | undefined => {
     const features = map.queryRenderedFeatures(event.point, {
       layers: [mapId],
     });
@@ -117,7 +117,7 @@ export const createLayer = (
       return;
     }
     const feature = features[0];
-    return JSON.parse(feature.properties?.data ?? "{}") as NotionPlace;
+    return JSON.parse(feature.properties?.data ?? "{}") as PlaceDTO;
   };
 
   const mapId = "places-" + type;
@@ -131,10 +131,7 @@ export const createLayer = (
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [
-            place.properties.Longitude.number,
-            place.properties.Latitude.number,
-          ],
+          coordinates: [place.longitude, place.latitude],
         },
         properties: {
           data: JSON.stringify(place),
@@ -192,13 +189,9 @@ export const createLayer = (
       console.log("coords", coordinates);
       const place = getSelectedPlace(e);
       if (place) {
-        const header = (
-          <h1>
-            {place.properties.Name?.title?.map((i) => i.plain_text).join("")}
-          </h1>
-        );
+        const header = <h1>{place.name}</h1>;
 
-        const hero = !place.cover?.external?.url ? (
+        const hero = !place.cover ? (
           header
         ) : (
           <div
@@ -208,7 +201,7 @@ export const createLayer = (
                 to bottom,
                 rgba(0, 0, 0, 0),
                 rgba(0, 0, 0, 0.4)
-            ), url(${place.cover?.external?.url})`,
+            ), url(${place.cover})`,
             }}
           >
             {header}
@@ -223,9 +216,7 @@ export const createLayer = (
               <>
                 {hero}
                 <div className="desc-container">
-                  <p className="placetype">
-                    {place.properties.Type.select.name}
-                  </p>
+                  <p className="placetype">{place.type}</p>
                 </div>
               </>
             )
@@ -279,17 +270,17 @@ export const createLayer = (
   // });
 };
 
-const popup = (place: NotionPlace) => {
+const popup = (place: PlaceDTO) => {
   console.log(JSON.stringify(place));
 
-  const header = `<h1>${place.properties.Name?.title?.map((i) => i.plain_text).join("")}</h1>`;
-  const hero = !place.cover?.external?.url
+  const header = `<h1>${place.name}</h1>`;
+  const hero = !place.cover
     ? header
     : `<div class="popup_background" style="background-image: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0),
     rgba(0, 0, 0, 0.4)
-  ), url(${place.cover?.external?.url})">
+  ), url(${place.cover})">
         ${header}
     </div>`;
 
@@ -298,12 +289,9 @@ const popup = (place: NotionPlace) => {
   return new mapbox.Popup({
     // closeOnMove: true,
     offset: [0, -10],
-  }).setLngLat([
-    place.properties.Longitude.number,
-    place.properties.Latitude.number,
-  ]).setHTML(`${hero}
+  }).setLngLat([place.longitude, place.latitude]).setHTML(`${hero}
         <div class="desc-container">
-    <p class="placetype">${place.properties.Type.select.name}</p></div>`);
+    <p class="placetype">${place.type}</p></div>`);
 };
 
 function padding() {
