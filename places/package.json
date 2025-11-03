@@ -16,7 +16,7 @@
     "class-variance-authority": "^0.7.0",
     "design-system-components": "file:../design-system/components",
     "iconoir-react": "^6.5.0",
-    "mapbox-gl": "^3.14.0",
+    "mapbox-gl": "^3.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
