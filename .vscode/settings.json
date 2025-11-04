@@ -1,3 +1,4 @@
 {
   "tailwindCSS.classFunctions": ["tw", "clsx", "tw\\.[a-z-]+", "cva"],
+  "editor.formatOnSave": true
 }

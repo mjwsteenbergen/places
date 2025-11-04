@@ -1,0 +1,12 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/universal:3-noble",
+  "customizations": {
+    "codespaces": {
+      "repositories": {
+        "mjwsteenbergen/design-system": {
+          "permissions": "write-all"
+        }
+      }
+    }
+  }
+}
