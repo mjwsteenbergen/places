@@ -1,0 +1,198 @@
+@font-face {
+    font-family: 'SuperiorTitle';
+    src: url('https://nntn.nl/font/SuperiorTitle/SuperiorTitle-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SuperiorTitle';
+    src: url('https://nntn.nl/font/SuperiorTitle/SuperiorTitle-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SuperiorTitle';
+    src: url('https://nntn.nl/font/SuperiorTitle/SuperiorTitle-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Geologica';
+    font-style: normal;
+    font-weight: bold;
+    src:
+        url('https://nntn.nl/font/Geologica/Geologica-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Geologica';
+    font-style: normal;
+    font-weight: normal;
+    src:
+        url('https://nntn.nl/font/Geologica/Geologica-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-Thin.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-Thin.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 100;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-ThinItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-ThinItalic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-ExtraLight.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-ExtraLight.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 200;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-ExtraLightItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-ExtraLightItalic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-Light.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-Light.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 300;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-LightItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-LightItalic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-Regular.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-Regular.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-Italic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-Italic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-Medium.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-Medium.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-MediumItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-MediumItalic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-SemiBold.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-SemiBold.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-SemiBoldItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-SemiBoldItalic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-Bold.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-Bold.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-BoldItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-BoldItalic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-ExtraBold.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-ExtraBold.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 800;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-ExtraBoldItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-ExtraBoldItalic.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-Black.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-Black.woff?v=3.15') format('woff');
+}
+
+@font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 900;
+    font-display: swap;
+    src: url('https://nntn.nl/font/Inter-BlackItalic.woff2?v=3.15') format('woff2'),
+        url('https://nntn.nl/font/Inter-BlackItalic.woff?v=3.15') format('woff');
+}
