@@ -10,8 +10,8 @@ import { useDisplayedPlaces } from "~/context/displayed-places";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Place" },
+    { name: "description", content: "Your place to look at places" },
   ];
 }
 
