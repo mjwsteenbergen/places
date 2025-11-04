@@ -22,12 +22,6 @@ export const withSessionClient = async <T>(
 };
 
 export async function createSessionClient(session: string) {
-  const env = config();
-
-  if (env.error) {
-    throw new Error(env.error.message);
-  }
-
   const client = new Client()
     .setEndpoint("https://appwrite.thornhillcorp.uk/v1") // Your API Endpoint
     .setProject("68ed4e8900179a221a94"); // Your project ID
@@ -66,20 +60,18 @@ const createClient = (client: Client) => {
 export type AppWriteClient = ReturnType<typeof createClient>;
 
 export async function createAdminClient() {
-  const env = config();
-
-  if (env.error) {
-    throw new Error(env.error.message);
-  }
+  const env = config({
+    quiet: true,
+  });
 
   const client = new Client()
     .setEndpoint("https://appwrite.thornhillcorp.uk/v1") // Your API Endpoint
     .setProject("68ed4e8900179a221a94") // Your project ID
-    .setKey(env.parsed?.APPWRITE_TOKEN ?? "") // Your secret API key
+    .setKey(process.env.APPWRITE_TOKEN ?? "") // Your secret API key
     .setSelfSigned(true); // Use only on dev mode with a self-signed SSL cert
 
   return {
-    baseUrl: env.parsed?.BASE_URL,
+    baseUrl: process.env.BASE_URL,
     ...createClient(client),
   };
 }

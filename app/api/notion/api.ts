@@ -3,14 +3,12 @@ import { Client } from "@notionhq/client";
 import type { NotionPlace } from "./types";
 
 const getClient = () => {
-  const env = config();
-
-  if (env.error) {
-    throw new Error(env.error.message);
-  }
+  const env = config({
+    quiet: true,
+  });
 
   return new Client({
-    auth: env.parsed?.NOTION_TOKEN,
+    auth: process.env.NOTION_TOKEN,
   });
 };
 
