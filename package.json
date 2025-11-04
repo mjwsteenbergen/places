@@ -34,7 +34,7 @@
     "@react-router/dev": "^7.9.2",
     "@tailwindcss/vite": "^4.1.13",
     "@types/mapbox-gl": "^3.4.1",
-    "@types/node": "^22",
+    "@types/node": "^24",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "prettier": "^3.6.2",
