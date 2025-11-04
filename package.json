@@ -23,7 +23,7 @@
     "iconoir-react": "^7.11.0",
     "isbot": "^5.1.31",
     "mapbox-gl": "^3.16.0",
-    "node-appwrite": "^20.2.1",
+    "node-appwrite": "^20.3.0",
     "radix-ui": "^1.4.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
