@@ -12,6 +12,7 @@ export default [
     route("admin", "./routes/admin.tsx"),
     route("place/:id", "./routes/place.tsx"),
     route("collection/:id", "./routes/collection.tsx"),
+    route("search", "./routes/search.tsx"),
   ]),
   route("login", "./routes/login.tsx"),
   route("oauth", "./routes/oauth.tsx"),

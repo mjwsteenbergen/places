@@ -36,7 +36,8 @@
   --color-*: initial;
 
   --background-color-transparent: "transparent";
-  --background-color-neutral-low: "#FCFCFC";
+  --background-color-neutral-minimal: black;
+  --background-color-neutral-low: #FCFCFC;
   --background-color-neutral-medium: hsl(240, 4%, 51%);
   --background-color-neutral-default: hsl(0, 0%, 99%);
 
@@ -61,6 +62,20 @@
   --border-color-primary-border-high: var(--red-700);
   --border-color-primary-border-medium: var(--red-500);
   --border-color-primary-border-low: var(--red-300);
+
+  --ring-color-neutral-ring-low: var(--black-200);
+  --ring-color-neutral-ring-medium: var(--black-400);
+  --ring-color-neutral-ring-high: var(--black-600);
+  --ring-color-primary-ring-low: var(--red-300);
+  --ring-color-primary-ring-medium: var(--red-500);
+  --ring-color-primary-ring-high: var(--red-700);
+
+  --outline-color-neutral-outline-low: var(--black-200);
+  --outline-color-neutral-outline-medium: var(--black-400);
+  --outline-color-neutral-outline-high: var(--black-600);
+  --outline-color-primary-outline-low: var(--red-300);
+  --outline-color-primary-outline-medium: var(--red-500);
+  --outline-color-primary-outline-high: var(--red-700);
 }
 
 html,

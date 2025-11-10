@@ -7,6 +7,7 @@ import {
 } from "~/components/page/sidemenu/sidemenu";
 import { TagList } from "~/components/page/TagList";
 import { useDisplayedPlaces } from "~/context/displayed-places";
+import { Search } from "iconoir-react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -21,9 +22,12 @@ export default function Home() {
   return (
     <SideMenu>
       <BottomContainer>
+        <Button className="px-3" to="search">
+          <Search />
+        </Button>
         <TagList places={places} className="-ml-1" />
       </BottomContainer>
-      <PlaceList />
+      <PlaceList places={places} />
     </SideMenu>
   );
 }

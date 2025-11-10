@@ -1,6 +1,7 @@
 import { redirect, useNavigate, useNavigation } from "react-router";
 import type { Route } from "./+types/collection";
 import {
+  BackButton,
   DataContainer,
   PlaceMenuItem,
   SideMenu,
@@ -19,8 +20,6 @@ export default function Collection({
   params: { id: collectionId },
 }: Route.ComponentProps) {
   const places = useDisplayedPlaces();
-  const navigate = useNavigate();
-  const navigation = useNavigation();
 
   const collection = places
     .flatMap((i) => i.tags)
@@ -41,19 +40,7 @@ export default function Collection({
       <meta property="og:title" content={collection.name} />
       <SideMenu>
         <div className="flex justify-between items-center">
-          {window.history.length > 1 && (
-            <Button
-              className="px-3"
-              disabled={navigation.state === "loading"}
-              onClick={() => {
-                if (window.history.length > 1) {
-                  navigate(-1);
-                }
-              }}
-            >
-              <ArrowLeft />
-            </Button>
-          )}
+          <BackButton />
         </div>
         <DataContainer>
           <h1 className="px-6 py-3 text-3xl font-bold">{collection?.name}</h1>

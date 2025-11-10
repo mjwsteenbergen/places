@@ -3,8 +3,7 @@ import { useMemo, useState, type ReactNode } from "react";
 import type { PropsWithChildren } from "react";
 import { href, Link, useNavigate, useNavigation } from "react-router";
 import { twMerge } from "tailwind-merge";
-import type { NotionPlace } from "~/api/notion/types";
-import type { PlaceDTO } from "~/api/places/types";
+import type { PlaceDTO, TagDTO } from "~/api/places/types";
 import { Button } from "~/components/design-system/button";
 import { useDisplayedPlaces } from "~/context/displayed-places";
 import { SideMenuContextProvider, useSideMenu } from "./sidemenuContext";
@@ -23,7 +22,7 @@ export const Menu = ({
   );
 };
 
-const BackButton = () => {
+export const BackButton = () => {
   const navigate = useNavigate();
   const navigation = useNavigation();
 
@@ -32,7 +31,7 @@ const BackButton = () => {
   }
 
   const canGoBack = useMemo(() => {
-    if (window.history.length > 1) {
+    if ((window.history.state?.idx ?? 0) > 0) {
       return true;
     }
     return false;
@@ -90,9 +89,7 @@ export const SideMenu = ({ children }: PropsWithChildren) => {
   );
 };
 
-export const PlaceList = () => {
-  const places = useDisplayedPlaces();
-
+export const PlaceList = ({ places }: { places: PlaceDTO[] }) => {
   return (
     <DataContainer>
       <ul>
@@ -124,6 +121,14 @@ export const PlaceMenuItem = ({ place }: { place: PlaceDTO }) => {
   return (
     <MenuItem>
       <Link to={href("/place/:id", { id: place.id })}>{place.name}</Link>
+    </MenuItem>
+  );
+};
+
+export const CollectionItem = ({ tag }: { tag: TagDTO }) => {
+  return (
+    <MenuItem>
+      <Link to={href("/collection/:id", { id: tag.id })}>{tag.name}</Link>
     </MenuItem>
   );
 };

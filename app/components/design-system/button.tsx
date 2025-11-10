@@ -1,15 +1,16 @@
 import type { ComponentProps, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
 import { cva } from "cva";
+import { Link } from "react-router";
 
 type BProps = ComponentProps<"button">;
-type LinkProps = { href: string } & ComponentProps<"a">;
+type LinkProps = { to: string } & ComponentProps<typeof Link>;
 type Props = BProps | LinkProps;
 
 export const Button = ({ children, ...rest }: PropsWithChildren<Props>) => {
   const [Tag, restProps] =
-    "href" in rest
-      ? (["a", rest as LinkProps] as const)
+    "to" in rest
+      ? ([Link, rest as LinkProps] as const)
       : (["button", rest as BProps] as const);
   return (
     <Tag
