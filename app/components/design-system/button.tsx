@@ -1,16 +1,15 @@
 import type { ComponentProps, PropsWithChildren } from "react";
 import { twMerge } from "tailwind-merge";
-import { cva } from "cva";
-import { Link } from "react-router";
+import { Slot } from "radix-ui";
 
 type BProps = ComponentProps<"button">;
-type LinkProps = { to: string } & ComponentProps<typeof Link>;
-type Props = BProps | LinkProps;
+type AsChildProps = { asChild: true; className?: string };
+type Props = BProps | AsChildProps;
 
 export const Button = ({ children, ...rest }: PropsWithChildren<Props>) => {
   const [Tag, restProps] =
-    "to" in rest
-      ? ([Link, rest as LinkProps] as const)
+    "asChild" in rest
+      ? ([Slot.Root, rest as AsChildProps] as const)
       : (["button", rest as BProps] as const);
   return (
     <Tag

@@ -1,17 +1,12 @@
-import { Button } from "~/components/design-system/button";
 import type { Route } from "./+types/search";
 import {
-  BackButton,
   BottomContainer,
   CollectionItem,
   DataContainer,
-  PlaceList,
   PlaceMenuItem,
   SideMenu,
 } from "~/components/page/sidemenu/sidemenu";
-import { TagList } from "~/components/page/TagList";
 import { useDisplayedPlaces } from "~/context/displayed-places";
-import { Search } from "iconoir-react";
 import { useMemo, type ComponentProps } from "react";
 import { twMerge } from "tailwind-merge";
 import { useSearchParams } from "react-router";

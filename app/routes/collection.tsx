@@ -13,8 +13,6 @@ import {
   Tabs,
   TabTrigger,
 } from "~/components/design-system/tabs";
-import { Button } from "~/components/design-system/button";
-import { ArrowLeft } from "iconoir-react";
 
 export default function Collection({
   params: { id: collectionId },

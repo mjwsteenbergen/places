@@ -27,8 +27,8 @@ export default function Login({ loaderData }: Route.ComponentProps) {
       <div className="bg-neutral-default p-8 rounded-lg shadow">
         <h1 className="font-heading text-5xl mb-4 w-full text-center">Login</h1>
         <p>You don't seem to be authenticated</p>
-        <Button href={loaderData.redirectUrl} className="w-full mt-4">
-          Login with Authentik
+        <Button className="w-full mt-4" asChild>
+          <a href={loaderData.redirectUrl}>Login with Authentik</a>
         </Button>
       </div>
     </div>

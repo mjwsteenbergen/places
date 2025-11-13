@@ -8,6 +8,7 @@ import {
 import { TagList } from "~/components/page/TagList";
 import { useDisplayedPlaces } from "~/context/displayed-places";
 import { Search } from "iconoir-react";
+import { Link } from "react-router";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -22,8 +23,10 @@ export default function Home() {
   return (
     <SideMenu>
       <BottomContainer>
-        <Button className="px-3" to="search">
-          <Search />
+        <Button className="px-3" asChild>
+          <Link to="search">
+            <Search />
+          </Link>
         </Button>
         <TagList places={places} className="-ml-1" />
       </BottomContainer>

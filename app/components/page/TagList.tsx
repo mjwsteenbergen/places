@@ -1,6 +1,5 @@
 import { Tag } from "../design-system/tag";
 import { Link } from "react-router";
-import { Button } from "../design-system/button";
 import type { PlaceDTO, TagDTO } from "~/api/places/types";
 import { twMerge } from "tailwind-merge";
 

@@ -28,7 +28,6 @@ export default function Admin() {
           <Button type="submit">Sync</Button>
         </Form>
       </div>
-      <PlaceList />
     </SideMenu>
   );
 }

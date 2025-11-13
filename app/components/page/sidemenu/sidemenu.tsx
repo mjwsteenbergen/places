@@ -5,7 +5,6 @@ import { href, Link, useNavigate, useNavigation } from "react-router";
 import { twMerge } from "tailwind-merge";
 import type { PlaceDTO, TagDTO } from "~/api/places/types";
 import { Button } from "~/components/design-system/button";
-import { useDisplayedPlaces } from "~/context/displayed-places";
 import { SideMenuContextProvider, useSideMenu } from "./sidemenuContext";
 
 export const Menu = ({

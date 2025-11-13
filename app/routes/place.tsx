@@ -1,15 +1,13 @@
 import {
   BottomContainer,
   DataContainer,
-  PlaceList,
   SideMenu,
 } from "~/components/page/sidemenu/sidemenu";
 import { useDisplayedPlaces } from "~/context/displayed-places";
 import type { Route } from "./+types/place";
 import { redirect, useNavigate, useNavigation } from "react-router";
 import { Link } from "~/components/design-system/link";
-import { ArrowLeft, ArrowUpRightSquareSolid, Notes } from "iconoir-react";
-import { Button } from "~/components/design-system/button";
+import { ArrowUpRightSquareSolid } from "iconoir-react";
 import { Tag } from "~/components/design-system/tag";
 import { useEffect } from "react";
 import { useMapboxMap } from "~/context/mapbox-gl";
@@ -25,9 +23,6 @@ export function meta({ params }: Route.MetaArgs) {
 export default function Place({
   params: { id: placeId },
 }: Route.ComponentProps) {
-  const navigate = useNavigate();
-  const navigation = useNavigation();
-
   const places = useDisplayedPlaces();
   const [map] = useMapboxMap();
   const place = places.find((i) => i.id === placeId);
