@@ -1,7 +1,7 @@
 import { getNotionPlaces } from "~/api/notion/api";
 import type { Route } from "../+types/page-wrapper";
 import { Map } from "../components/page/map/map";
-import { MapboxContext } from "~/context/mapbox-gl";
+import { MapboxContext, GeoLocateContextProvider } from "~/context/mapbox-gl";
 import { Outlet } from "react-router";
 import { withSessionClient } from "~/api/appwrite/server";
 import {
@@ -9,9 +9,9 @@ import {
   PlacesContextProvider,
 } from "~/context/displayed-places";
 import {
-  getAllowedPlaces,
   getAppwritePlaces,
   getAppwriteCollections,
+  getAppwriteCapabilities,
 } from "~/api/appwrite/database";
 import { getPlacesDTO, getTagsDTO } from "~/api/places/database";
 
@@ -25,9 +25,19 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
         return array.findIndex((t) => t.id === tag.id) === index;
       });
     const appwriteCollections = await getAppwriteCollections(client);
+    const appwriteCapabilities = await getAppwriteCapabilities(client);
 
-    const tagsDTO = getTagsDTO(notionTags, appwriteCollections);
-    const placesDTO = getPlacesDTO(notionPlaces, appwritePlaces, tagsDTO);
+    const tagsDTO = getTagsDTO(
+      appwriteCapabilities,
+      notionTags,
+      appwriteCollections
+    );
+    const placesDTO = getPlacesDTO(
+      appwriteCapabilities,
+      notionPlaces,
+      appwritePlaces,
+      tagsDTO
+    );
 
     return {
       places: placesDTO,
@@ -35,7 +45,7 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
   });
 }
 
-export function shouldRevalidate(arg: Route.shouldRevalidate) {
+export function shouldRevalidate() {
   return false;
 }
 
@@ -44,10 +54,14 @@ export default function PageWrappers({ loaderData }: Route.ComponentProps) {
   return (
     <PlacesContextProvider places={places}>
       <DisplayedPlacesContextProvider places={places}>
-        <MapboxContext>
-          <Outlet />
-          <Map />
-        </MapboxContext>
+        <GeoLocateContextProvider>
+          <MapboxContext>
+            <div className="h-screen overflow-visible overscroll-none w-screen">
+              <Outlet />
+              <Map />
+            </div>
+          </MapboxContext>
+        </GeoLocateContextProvider>
       </DisplayedPlacesContextProvider>
     </PlacesContextProvider>
   );

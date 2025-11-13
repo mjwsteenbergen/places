@@ -4,6 +4,7 @@ import {
   BottomContainer,
   PlaceList,
   SideMenu,
+  LocationButton,
 } from "~/components/page/sidemenu/sidemenu";
 import { TagList } from "~/components/page/TagList";
 import { useDisplayedPlaces } from "~/context/displayed-places";
@@ -28,6 +29,7 @@ export default function Home() {
             <Search />
           </Link>
         </Button>
+        <LocationButton />
         <TagList places={places} className="-ml-1" />
       </BottomContainer>
       <PlaceList places={places} />

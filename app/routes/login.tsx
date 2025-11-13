@@ -10,7 +10,7 @@ export async function loader({}: Route.ClientLoaderArgs) {
     provider: OAuthProvider.Authentik,
     success: `${baseUrl}/oauth`,
     failure: `${baseUrl}/signup`,
-    scopes: ["repo", "user"],
+    scopes: ["profile"],
   });
 
   return {

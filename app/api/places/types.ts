@@ -8,11 +8,16 @@ export type PlaceDTO = {
   visited: boolean;
   cover: string;
   url: string;
-  permissions: string[];
+  permissions?: string[];
 };
 
 export type TagDTO = {
   id: string;
   name: string;
-  permissions: string[];
+  permissions?: string[];
+};
+
+export type UserDTO = {
+  id: string;
+  name: string;
 };

@@ -1,7 +1,12 @@
 import type { NotionPlace, Select } from "~/api/notion/types";
 import { createAdminClient, type AppWriteClient } from "./server";
-import type { AppwriteCollection, AppwritePlace } from "./database-definitions";
+import type {
+  AppwriteCapability,
+  AppwriteCollection,
+  AppwritePlace,
+} from "./database-definitions";
 import { ID, Permission, Query, Role, type Models } from "node-appwrite";
+import type { use } from "react";
 
 export const getAllowedPlaces = async (
   client: AppWriteClient,
@@ -30,6 +35,15 @@ export const getAppwritePlaces = async (client: AppWriteClient) => {
     [Query.limit(300)]
   );
   return appwriteTable.documents as unknown as AppwritePlace[];
+};
+
+export const getAppwriteCapabilities = async (client: AppWriteClient) => {
+  const appwriteTable = await client.database.listDocuments(
+    "68ed67c5001f8347081f",
+    "capabilities",
+    [Query.limit(300)]
+  );
+  return appwriteTable.documents as unknown as AppwriteCapability[];
 };
 
 export const syncCollections = async (places: NotionPlace[]) => {
@@ -92,7 +106,7 @@ export const syncCollections = async (places: NotionPlace[]) => {
 
 export const syncPlaces = async (places: NotionPlace[]) => {
   const client = await createAdminClient();
-  const { account, database, teams } = client;
+  const { account, database, teams, users } = client;
   const placeRows = await getAppwritePlaces(client);
   // const placeRows = (await Promise.allSettled(new Array(3).fill(1).map((_, index) => {
   //     return database.listDocuments(
@@ -153,5 +167,35 @@ export const syncPlaces = async (places: NotionPlace[]) => {
     );
   }
 
-  // await teams.createMembership("admin", [], undefined, "68ed54f7b440d6690ad2")
+  // users
+  //   .get({
+  //     userId: "68ed54f7b440d6690ad2",
+  //   })
+  //   .then((user) => {
+  //     user.console.log(user);
+  //   });
+
+  // const martijn = account.get({});
+};
+
+export const setCorrectPermissions = async () => {
+  const client = await createAdminClient();
+  const { account, database, teams, users } = client;
+  await teams
+    .listMemberships({
+      teamId: "admin",
+    })
+    .then((memberships) => {
+      if (
+        !memberships.memberships.some(
+          (membership) => membership.userId === "68ed54f7b440d6690ad2"
+        )
+      ) {
+        return teams.createMembership({
+          teamId: "admin",
+          userId: "68ed54f7b440d6690ad2",
+          roles: [],
+        });
+      }
+    });
 };

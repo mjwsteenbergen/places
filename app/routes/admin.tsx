@@ -6,13 +6,19 @@ import {
 } from "../components/page/sidemenu/sidemenu";
 import { Button } from "~/components/design-system/button";
 import { getNotionPlaces } from "~/api/notion/api";
-import { syncCollections, syncPlaces } from "~/api/appwrite/database";
+import {
+  syncCollections,
+  syncPlaces,
+  setCorrectPermissions,
+} from "~/api/appwrite/database";
 import { Form } from "react-router";
 
 export async function action() {
   const places = await getNotionPlaces();
   await syncPlaces(places);
   await syncCollections(places);
+  await setCorrectPermissions();
+  console.log("Sync completed");
 }
 
 export default function Admin() {

@@ -1,5 +1,5 @@
 import mapboxgl, { type Map as MapBoxMap } from "mapbox-gl";
-import { useMapboxMap } from "../../../context/mapbox-gl";
+import { useGeolocateControl, useMapboxMap } from "../../../context/mapbox-gl";
 import { createPlaces, fitAllInBounds } from "./createPlaces";
 import { useRef, useEffect } from "react";
 // import "./map.scss";
@@ -20,8 +20,8 @@ export const Map = () => {
   const filteredPlaces = useDisplayedPlaces();
   const navigate = useNavigate();
   const mapContainerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<MapBoxMap | null>(null);
-  const [map, setMap] = useMapboxMap();
+  const [, setMap] = useMapboxMap();
+  const [, setGeolocateControl] = useGeolocateControl();
   //   const { setSelectedPlace } = usePageState();
   //   setter = (sel?: NotionPlace) => {
   //     setSelectedPlace(sel?.id);
@@ -45,16 +45,17 @@ export const Map = () => {
       }
     });
 
-    map.addControl(
-      new mapboxgl.GeolocateControl({
-        showUserHeading: true,
-        showAccuracyCircle: true,
-        showUserLocation: true,
-        trackUserLocation: true,
-      })
-    );
+    const geolocateControl = new mapboxgl.GeolocateControl({
+      showUserHeading: true,
+      showAccuracyCircle: true,
+      showUserLocation: true,
+      trackUserLocation: true,
+    });
+
+    map.addControl(geolocateControl);
 
     setMap(map);
+    setGeolocateControl(geolocateControl);
   }, []);
 
   // useEffect(() => {
@@ -74,7 +75,7 @@ export const Map = () => {
   return (
     <div
       ref={mapContainerRef}
-      className="!fixed bottom-0 left-0 top-0 right-0 overflow-hidden overscroll-none"
+      className="absolute h-[108vh] sm:h-[100dvh] left-0 top-0 right-0 overscroll-none"
     ></div>
   );
 };

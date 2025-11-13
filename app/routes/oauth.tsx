@@ -20,7 +20,7 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
 
     return redirect("/", {
       headers: {
-        "Set-Cookie": `session=${session.secret}`,
+        "Set-Cookie": `place_session=${session.secret}`,
       },
     });
   } catch {
@@ -28,6 +28,6 @@ export async function loader({ request }: Route.ClientLoaderArgs) {
   }
 }
 
-export default function OAuth({ loaderData }: Route.ComponentProps) {
+export default function OAuth() {
   return <p>Loading...</p>;
 }

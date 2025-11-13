@@ -11,7 +11,7 @@ export const withSessionClient = async <T>(
   let sessionClient: AppWriteClient | undefined = undefined;
   try {
     const cookies = cookie.parse(request.headers.get("Cookie") ?? "");
-    sessionClient = await createSessionClient(cookies.session ?? "");
+    sessionClient = await createSessionClient(cookies.place_session ?? "");
   } catch (error) {
     return redirect("/login") as T;
   }
